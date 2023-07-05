@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">My Brain Memory</string>
+    <string name="login">Login</string>
+    <string name="signup">Sign Up</string>
+    <string name="register">Register</string>
+    <string name="no_account">Don\'t have an account?</string>
+    <string name="create_acc">Create your account</string>
+    <string name="already_acc">Already have an account?</string>
+    <string name="welcome_back">Welcome Back</string>
+    <string name="login_acc">Login to your account</string>
+    <string name="memory">Memory</string>
+    <string name="image_matching">Image Matching</string>
+    <string name="jigsaw_puzzle">Jigsaw Puzzle</string>
+    <string name="start">Start</string>
+    <string name="difficulty_level">Difficulty Level</string>
+    <string name="easy">Easy</string>
+    <string name="medium">Medium</string>
+    <string name="hard">Hard</string>
+</resources>

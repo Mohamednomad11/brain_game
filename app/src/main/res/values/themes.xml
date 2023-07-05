@@ -1,0 +1,35 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.MyBrainMemory" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/light_brown</item>
+        <item name="colorPrimaryVariant">@color/dark_brown</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/light_pink</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <!-- Customize your theme here. -->
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+
+        <item name="textInputStyle">@style/CustomTextInputLayout</item>
+
+        <item name="android:fontFamily">@font/baloo2_bold</item>
+    </style>
+
+    <style name="CustomTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="boxBackgroundMode">none</item>
+    </style>
+
+    <style name="Custom_TextInputLayout_Alert_Dialog" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/green</item>
+    </style>
+
+    <style name="CustomHorizontalProgressBarStyle" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <!-- Customize the color of the ProgressBar -->
+        <item name="android:progressDrawable">@drawable/custom_horizontal_progress_bar</item>
+        <!-- Customize other attributes as needed -->
+    </style>
+</resources>
