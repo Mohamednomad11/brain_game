@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.nomad.mybrainmemory.PlayScreen;
+import com.nomad.mybrainmemory.PlayScreenMatching;
 import com.nomad.mybrainmemory.R;
 import com.nomad.mybrainmemory.game.InfoBox;
 import com.nomad.mybrainmemory.model.GameModel;
@@ -64,7 +64,7 @@ public class CongratsScreen extends Fragment {
             nextLevelBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    getFragmentManager().beginTransaction().replace(R.id.fragment_container, new RoundTwo(gameModel)).commit();
+                    getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, new RoundTwo(gameModel)).commit();
                 }
             });
         } else if(fragment_round_num.equals("Round 2")){
@@ -75,7 +75,7 @@ public class CongratsScreen extends Fragment {
                 @Override
                 public void onClick(View v) {
                     getActivity().finish();
-                    getActivity().startActivity(new Intent(getContext(), PlayScreen.class));
+                    getActivity().startActivity(new Intent(getContext(), PlayScreenMatching.class));
                 }
             });
         }

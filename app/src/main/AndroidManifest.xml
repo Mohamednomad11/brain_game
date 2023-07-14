@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+    <!-- Optional permissions -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
 
     <application
         android:allowBackup="true"
@@ -22,13 +24,23 @@
             android:name=".MenuScreen"
             android:exported="false" />
         <activity
-            android:name=".PlayScreen"
+            android:name=".PlayScreenMatching"
             android:exported="false" />
         <activity
             android:name=".MatchingStartScreen"
             android:exported="true"/>
         <activity
+            android:name=".JigsawPuzzleStartScreen"
+            android:exported="true"/>
+        <activity
             android:name=".DifficultyLevelScreen"
+            android:exported="true"/>
+        <activity
+            android:name=".jigsawpuzzle.cutter.ImageCutter"
+            android:exported="true"/>
+        <activity
+            android:name=".jigsawpuzzle.puzzle.PuzzleActivity"
+            android:screenOrientation="landscape"
             android:exported="true"/>
         <activity
             android:name=".WelcomeScreen"

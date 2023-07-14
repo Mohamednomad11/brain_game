@@ -50,7 +50,7 @@ public class RoundTwo extends Fragment {
         infoBox = new InfoBox();
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
         PopulateCard populateCard = new PopulateCard(6);
-        CardAdapter cardAdapter = new CardAdapter(populateCard.populateCard(), getContext(), gameModel, gameScore, animScore, populateCard.getTotalAnimals(), getFragmentManager(), "Round 2");
+        CardAdapter cardAdapter = new CardAdapter(populateCard.populateCard(), getContext(), gameModel, gameScore, animScore, populateCard.getTotalAnimals(), getParentFragmentManager(), "Round 2");
         recyclerView.setAdapter(cardAdapter);
         gameScore.setText(String.valueOf(gameModel.getScore()));
 

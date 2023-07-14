@@ -8,7 +8,7 @@ import com.nomad.mybrainmemory.model.GameModel;
 import com.nomad.mybrainmemory.play.RoundOne;
 
 
-public class PlayScreen extends AppCompatActivity {
+public class PlayScreenMatching extends AppCompatActivity {
 
     GameModel gameModel;
     @Override

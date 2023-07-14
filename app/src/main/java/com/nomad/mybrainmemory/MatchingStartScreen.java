@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.nomad.mybrainmemory.util.StaticConstants;
+
 public class MatchingStartScreen extends AppCompatActivity {
     Button startButton;
     ProgressBar progressBar;
@@ -45,6 +47,7 @@ public class MatchingStartScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MatchingStartScreen.this, DifficultyLevelScreen.class);
+                i.putExtra(StaticConstants.KEY_GAME_NAME, StaticConstants.GAME_MATCHING);
                 startActivity(i);
             }
         });

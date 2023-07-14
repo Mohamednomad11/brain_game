@@ -45,7 +45,7 @@
                 android:layout_marginHorizontal="16dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/user_name"
+                    android:id="@+id/user_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounder_border"
@@ -104,5 +104,12 @@
 
     </LinearLayout>
 
-
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="invisible"
+        android:background="@drawable/avatro_liner_bkg" />
 </RelativeLayout>
