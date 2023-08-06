@@ -42,27 +42,53 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:theme="@style/EditTextThemeOverlay"
+                android:textColorHint="@color/dark_brown"
+                app:boxStrokeColor="@color/dark_brown"
+                app:boxBackgroundColor="@color/white"
+                app:helperText="Enter email address"
+                app:helperTextTextAppearance="@style/HelperTextAppearance"
+                app:boxStrokeWidth="2dp"
+                app:hintTextAppearance="@style/HintTextAppearance"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusBottomEnd="8dp"
+                app:boxCornerRadiusTopStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
                 android:layout_marginHorizontal="16dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/user_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/rounder_border"
-                    android:hint="Username" />
+
+                    android:hint="Email" />
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:theme="@style/EditTextThemeOverlay"
+                android:textColorHint="@color/dark_brown"
+                app:boxStrokeColor="@color/dark_brown"
+                app:helperText="Enter password"
+                app:helperTextTextAppearance="@style/HelperTextAppearance"
+                app:hintTextAppearance="@style/HintTextAppearance"
+                app:boxStrokeWidth="2dp"
+                app:boxBackgroundColor="@color/white"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusBottomEnd="8dp"
+                app:boxCornerRadiusTopStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
                 android:layout_marginHorizontal="16dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/user_pass"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/rounder_border"
-                    android:hint="Password" />
+                    android:inputType="textPassword"
+                    android:hint="@string/hint_password" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
@@ -78,6 +104,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:gravity="center"
                 android:orientation="horizontal">
                 <TextView

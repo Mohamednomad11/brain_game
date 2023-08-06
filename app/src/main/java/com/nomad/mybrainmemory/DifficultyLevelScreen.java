@@ -54,7 +54,7 @@ public class DifficultyLevelScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
-                if(gameName == StaticConstants.GAME_MATCHING){
+                if(gameName.equals(StaticConstants.GAME_MATCHING)){
                     Intent i = new Intent(DifficultyLevelScreen.this, PlayScreenMatching.class);
                     i.putExtra(StaticConstants.KEY_DIFFICULTY_LEVEL, StaticConstants.LEVEL_MEDIUM);
                     startActivity(i);
@@ -70,7 +70,7 @@ public class DifficultyLevelScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
-                if(gameName == StaticConstants.GAME_MATCHING){
+                if(gameName.equals(StaticConstants.GAME_MATCHING)){
                     Intent i = new Intent(DifficultyLevelScreen.this, PlayScreenMatching.class);
                     i.putExtra(StaticConstants.KEY_DIFFICULTY_LEVEL, StaticConstants.LEVEL_HARD);
                     startActivity(i);
@@ -81,5 +81,11 @@ public class DifficultyLevelScreen extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        progressBar.setVisibility(View.INVISIBLE);
     }
 }

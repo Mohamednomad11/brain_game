@@ -28,20 +28,23 @@
             android:exported="false" />
         <activity
             android:name=".MatchingStartScreen"
-            android:exported="true"/>
+            android:exported="false"/>
         <activity
             android:name=".JigsawPuzzleStartScreen"
-            android:exported="true"/>
+            android:exported="false"/>
         <activity
             android:name=".DifficultyLevelScreen"
-            android:exported="true"/>
+            android:exported="false"/>
         <activity
-            android:name=".jigsawpuzzle.cutter.ImageCutter"
-            android:exported="true"/>
+            android:name=".ScoreBoardScreen"
+            android:exported="false"/>
+        <activity
+            android:name=".SearchReportActivity"
+            android:exported="false"/>
         <activity
             android:name=".jigsawpuzzle.puzzle.PuzzleActivity"
             android:screenOrientation="landscape"
-            android:exported="true"/>
+            android:exported="false"/>
         <activity
             android:name=".WelcomeScreen"
             android:exported="true">

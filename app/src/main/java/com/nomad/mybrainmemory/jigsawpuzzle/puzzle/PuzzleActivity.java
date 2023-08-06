@@ -87,7 +87,8 @@ public class PuzzleActivity extends AppCompatActivity {
 
 
         TextView timerTextView = findViewById(R.id.timerTextView);
-        TimerUtils.startTimer(timerTextView);
+        TimerUtils timerUtils = new TimerUtils(30000,timerTextView);
+        timerUtils.startTimer();
 
         Intent intent = getIntent();
 

@@ -1,5 +1,7 @@
 package com.nomad.mybrainmemory.util;
 
+import java.util.ArrayList;
+
 public class StaticConstants {
     public static final String KEY_GAME_NAME = "game_name";
     public static final String GAME_MATCHING = "matching";
@@ -21,13 +23,20 @@ public class StaticConstants {
     public static final String WARN_INVALID_EMAIL = "Email address is not valid!";
 
     public static final String WARN_INVALID_MATCH_PASS = "Password does not match with confirm password";
+    public static final String VAL_USER_TYPE_USER = "user";
+
+    public static final String VAL_USER_TYPE_ADMIN = "admin";
+
 
     // ---
     public static String CURRENT_USER_NAME = "no name";
 
     public static final String WARN_EMPTY_FIELD = "Fill all the fields";
 
+    public static ArrayList<String> MATCHING_IMAGE_LIST = new ArrayList<>();
 
+    // shared pref key
+    public static final String KEY_USER_TYPE = "userType";
 
 
 

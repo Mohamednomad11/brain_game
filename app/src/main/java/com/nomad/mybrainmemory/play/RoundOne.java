@@ -18,6 +18,7 @@ import com.nomad.mybrainmemory.adapter.gameadapter.CardAdapter;
 import com.nomad.mybrainmemory.game.InfoBox;
 import com.nomad.mybrainmemory.game.PopulateCard;
 import com.nomad.mybrainmemory.model.GameModel;
+import com.nomad.mybrainmemory.util.TimerUtils;
 
 
 public class RoundOne extends Fragment {
@@ -47,9 +48,14 @@ public class RoundOne extends Fragment {
         animScore = view.findViewById(R.id.anim_score);
         backBtn = view.findViewById(R.id.back_btn);
         infoBox = new InfoBox();
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
-        PopulateCard populateCard = new PopulateCard(3);
-        CardAdapter cardAdapter = new CardAdapter(populateCard.populateCard(), getContext(), gameModel, gameScore, animScore, populateCard.getTotalAnimals(), getParentFragmentManager(), "Round 1");
+
+        TextView timerTextView = view.findViewById(R.id.timerTextView);
+        TimerUtils timerUtils = new TimerUtils(180000,timerTextView,"Round 1",RoundOne.this,gameModel);
+        timerUtils.startTimer();
+
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        PopulateCard populateCard = new PopulateCard(4);
+        CardAdapter cardAdapter = new CardAdapter(populateCard.populateCard(), getContext(), gameModel, gameScore, animScore, populateCard.getTotalAnimals(), getParentFragmentManager(), "Round 1",timerUtils);
         recyclerView.setAdapter(cardAdapter);
 
         backBtn.setOnClickListener(new View.OnClickListener() {
@@ -62,7 +68,9 @@ public class RoundOne extends Fragment {
         infoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                infoBox.infoBox(getContext());
+                timerUtils.pauseTimer();
+                infoBox.createPauseDialog(getContext(),timerUtils,RoundOne.this,gameModel,"Round 1");
+
             }
         });
     }

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="32dp"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <!-- Score Meter -->
+        <ProgressBar
+            android:id="@+id/scoreMeter"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:progress="75"
+            android:progressTint="@color/dark_brown"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Total Score -->
+        <TextView
+            android:id="@+id/totalScoreLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/scoreMeter"
+            android:text="Total Score:"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"/>
+
+        <TextView
+            android:id="@+id/totalScoreValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/totalScoreLabel"
+            android:layout_alignBaseline="@id/totalScoreLabel"
+            android:text="90"
+            android:textStyle="bold"/>
+
+        <!-- Reaction Time -->
+        <TextView
+            android:id="@+id/reactionTimeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/totalScoreLabel"
+            android:layout_marginTop="8dp"
+            android:text="Reaction Time:"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/reactionTimeValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/reactionTimeLabel"
+            android:layout_alignBaseline="@id/reactionTimeLabel"
+            android:text="2.5 seconds"
+            android:textStyle="bold"/>
+
+        <!-- Other Performance Metrics, if needed -->
+
+    </RelativeLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

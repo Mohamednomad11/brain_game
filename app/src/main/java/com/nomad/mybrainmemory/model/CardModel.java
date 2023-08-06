@@ -5,6 +5,7 @@ public class CardModel {
     private int back_img;
     private int front_img;
 
+
     public CardModel(String name, int back_img, int front_img) {
         this.name = name;
         this.back_img = back_img;

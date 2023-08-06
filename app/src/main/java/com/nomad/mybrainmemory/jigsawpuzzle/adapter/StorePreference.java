@@ -11,7 +11,7 @@ public class StorePreference {
 
     public StorePreference(Context aContext) {
         mContext = aContext;
-        mSharedPreferences = mContext.getSharedPreferences("JIGSAW", Context.MODE_PRIVATE);
+        mSharedPreferences = mContext.getSharedPreferences("BRAINMEMORY", Context.MODE_PRIVATE);
         mPreferenceEditor = mSharedPreferences.edit();
     }
 

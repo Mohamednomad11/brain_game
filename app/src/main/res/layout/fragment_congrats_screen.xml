@@ -13,43 +13,20 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="45dp"
-            android:padding="8dp">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:id="@+id/back_btn"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/back"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentStart="true"
-                    android:elevation="10dp"/>
-
-                <ImageView
-                    android:id="@+id/info_btn"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/info"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentEnd="true"
-                    android:elevation="10dp"/>
-
-            </RelativeLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
             android:orientation="vertical"
             android:layout_marginTop="-150dp">
+
+            <TextView
+                android:id="@+id/level_complete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Level Complete"
+                android:gravity="center"
+                android:textColor="@color/dark_brown"
+                android:textSize="48sp"
+                android:fontFamily="@font/baloo2_bold"/>
 
             <TextView
                 android:id="@+id/final_score"
@@ -60,18 +37,33 @@
                 android:textColor="@color/white"
                 android:textSize="30dp"
                 android:fontFamily="@font/baloo2_bold"/>
-
-            <ImageView
+            <TextView
+                android:id="@+id/time_spent"
                 android:layout_width="match_parent"
-                android:layout_height="110dp"
-                android:src="@drawable/congrats" />
-
-            <ImageView
-                android:layout_marginTop="5dp"
+                android:layout_height="wrap_content"
+                android:text="Time Spent: 0"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="30dp"
+                android:fontFamily="@font/baloo2_bold"/>
+            <Button
                 android:id="@+id/next_level_btn"
                 android:layout_width="match_parent"
-                android:layout_height="75dp"
-                android:src="@drawable/next_level_btn"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/onboard_button_bkg"
+                android:layout_marginTop="48dp"
+                android:layout_marginHorizontal="16dp"
+                android:text="@string/nextLevel" />
+            <Button
+                android:id="@+id/back_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/onboard_button_bkg"
+                android:layout_marginTop="24dp"
+                android:layout_marginHorizontal="16dp"
+                android:text="@string/back" />
 
         </LinearLayout>
 

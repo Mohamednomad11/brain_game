@@ -5,9 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 
 import com.nomad.mybrainmemory.model.ScoreModel;
+import com.nomad.mybrainmemory.util.StaticConstants;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,12 +17,16 @@ import java.util.Comparator;
 
 public class ScoreDB extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "ScoreDB";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     private static final String TABLE_SCORES = "scores";
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_NAME = "name";
     private static final String COLUMN_SCORE = "score";
+
+    private static final String COLUMN_TIME = "time";
+
+    private static final String COLUMN_GAME = "game";
 
     public ScoreDB(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -32,7 +38,9 @@ public class ScoreDB extends SQLiteOpenHelper {
                 "(" +
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_NAME + " TEXT, " +
-                COLUMN_SCORE + " TEXT" +
+                COLUMN_SCORE + " TEXT," +
+                COLUMN_TIME + " TEXT," +
+                COLUMN_GAME + " TEXT" +
                 ")";
         db.execSQL(createTable);
     }
@@ -44,11 +52,13 @@ public class ScoreDB extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void addScore(String name, String score) {
+    public void addScore(String name, String score, String time, String game) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_NAME, name);
         values.put(COLUMN_SCORE, score);
+        values.put(COLUMN_TIME,time);
+        values.put(COLUMN_GAME,game);
         db.insert(TABLE_SCORES, null, values);
         db.close();
     }
@@ -61,13 +71,18 @@ public class ScoreDB extends SQLiteOpenHelper {
         int idIndex = cursor.getColumnIndex(COLUMN_ID);
         int nameIndex = cursor.getColumnIndex(COLUMN_NAME);
         int scoreIndex = cursor.getColumnIndex(COLUMN_SCORE);
+        int timeIndex = cursor.getColumnIndex(COLUMN_TIME);
+        int gameIndex = cursor.getColumnIndex(COLUMN_GAME);
+
 
         while (cursor.moveToNext()) {
             if (idIndex >= 0 && nameIndex >= 0 && scoreIndex >= 0) {
                 int id = cursor.getInt(idIndex);
                 String name = cursor.getString(nameIndex);
                 String score = cursor.getString(scoreIndex);
-                ScoreModel scoreModel = new ScoreModel(id, Integer.parseInt(score), name);
+                String time = cursor.getString(timeIndex);
+                String game = cursor.getString(gameIndex);
+                ScoreModel scoreModel = new ScoreModel(id, Integer.parseInt(score), name,time,game);
                 scores.add(scoreModel);
             }
         }
@@ -87,7 +102,7 @@ public class ScoreDB extends SQLiteOpenHelper {
                 return scoreComparison;
             }
         });
-
+        Log.e("Score"," "+scores.size());
         return scores;
     }
 

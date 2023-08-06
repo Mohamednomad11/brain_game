@@ -36,13 +36,13 @@ public class PopulateScore {
     }
 
     public ArrayList<ScoreModel> populateScore(){
-        if (allScores.size() > 1) {
+        if (allScores.size() >= 1) {
             // Select ArrayList from the second element onwards
             ArrayList<ScoreModel> selectedScores;
             if (allScores.size() >= 7) {
-                selectedScores = new ArrayList<>(allScores.subList(1, 7)); // Select top 7 scores
+                selectedScores = new ArrayList<>(allScores.subList(0, 6)); // Select top 7 scores
             } else {
-                selectedScores = new ArrayList<>(allScores.subList(1, allScores.size())); // Select remaining scores
+                selectedScores = new ArrayList<>(allScores.subList(0, allScores.size())); // Select remaining scores
             }
             return selectedScores;
         } else {

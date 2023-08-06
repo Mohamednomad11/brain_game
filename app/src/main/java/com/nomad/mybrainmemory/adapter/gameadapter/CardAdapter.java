@@ -18,6 +18,8 @@ import com.nomad.mybrainmemory.game.ScoreAnimation;
 import com.nomad.mybrainmemory.model.CardModel;
 import com.nomad.mybrainmemory.model.GameModel;
 import com.nomad.mybrainmemory.play.CongratsScreen;
+import com.nomad.mybrainmemory.util.StaticConstants;
+import com.nomad.mybrainmemory.util.TimerUtils;
 import com.wajahatkarim3.easyflipview.EasyFlipView;
 
 import java.util.ArrayList;
@@ -34,7 +36,9 @@ public class CardAdapter extends RecyclerView.Adapter<CardHolder> {
     FragmentManager fragment;
     ScoreAnimation scoreAnimation;
 
-    public CardAdapter(ArrayList<CardModel> mData, Context context, GameModel gameModel, TextView gameScore, TextView animScore, int totalCard, FragmentManager fragment, String fragment_round_num){
+    TimerUtils timerUtils;
+
+    public CardAdapter(ArrayList<CardModel> mData, Context context, GameModel gameModel, TextView gameScore, TextView animScore, int totalCard, FragmentManager fragment, String fragment_round_num, TimerUtils timerUtils){
         this.mData = mData;
         this.context = context;
         this.gameModel = gameModel;
@@ -46,6 +50,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardHolder> {
         flipCards = new ArrayList<>();
         names = new ArrayList<>();
         scoreAnimation = new ScoreAnimation();
+        this.timerUtils = timerUtils;
     }
 
     @NonNull
@@ -98,8 +103,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardHolder> {
                             }
                         }, 200);
                     } else {
-                        scoreAnimation.animationScore(animScore, "-5");
-                        gameModel.setScore(-5);
+//                        scoreAnimation.animationScore(animScore, "-5");
+//                        gameModel.setScore(-5);
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -116,15 +121,26 @@ public class CardAdapter extends RecyclerView.Adapter<CardHolder> {
                 //gameScore.setText(String.valueOf(gameModel.getScore()));
 
                 if(totalCard == 0){
+                    gameModel.setTimeSpent(timerUtils.getTimeLeftInSeconds());
+
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             if(fragment_round_num.equals("Round 1")){
-                                fragment.beginTransaction().replace(R.id.fragment_container, new CongratsScreen(gameModel, "Round 1")).commit();
-                            } else if(fragment_round_num.equals("Round 2")){
+                                gameModel.updateLevelStatus(1,true);
                                 InfoBox infoBox = new InfoBox();
-                                infoBox.addNameScore(context, String.valueOf(gameModel.getScore()));
+                                infoBox.addNameScore(context, String.valueOf(gameModel.getScore()),String.valueOf(gameModel.getTimeSpent()), StaticConstants.GAME_MATCHING);
+                                fragment.beginTransaction().replace(R.id.fragment_container, new CongratsScreen(gameModel, "Round 1")).commit();
+                            }else  if(fragment_round_num.equals("Round 2")){
+                                gameModel.updateLevelStatus(2,true);
+                                InfoBox infoBox = new InfoBox();
+                                infoBox.addNameScore(context, String.valueOf(gameModel.getScore()),String.valueOf(gameModel.getTimeSpent()), StaticConstants.GAME_MATCHING);
                                 fragment.beginTransaction().replace(R.id.fragment_container, new CongratsScreen(gameModel, "Round 2")).commit();
+                            } else if(fragment_round_num.equals("Round 3")){
+                                gameModel.updateLevelStatus(3,true);
+                                InfoBox infoBox = new InfoBox();
+                                infoBox.addNameScore(context, String.valueOf(gameModel.getScore()),String.valueOf(gameModel.getTimeSpent()), StaticConstants.GAME_MATCHING);
+                                fragment.beginTransaction().replace(R.id.fragment_container, new CongratsScreen(gameModel, "Round 3")).commit();
                             }
                         }
                     }, 800);

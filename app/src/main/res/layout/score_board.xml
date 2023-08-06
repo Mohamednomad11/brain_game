@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_pink">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="24dp"
+            android:padding="8dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/back_btn"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/back"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true"
+                    android:elevation="10dp"/>
+                <TextView
+                    android:id="@+id/scoreBoardTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textColor="@color/dark_brown"
+                    tools:text="Score Board" />
+
+                <ImageView
+                    android:id="@+id/info_btn"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/info"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:elevation="10dp"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/onboard_button_bkg"
+            android:weightSum="4"
+            android:layout_margin="4dp">
+
+            <TextView
+                android:id="@+id/rank_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="SL"
+                android:textColor="@color/dark_brown"
+                android:textSize="38dp"
+                android:fontFamily="@font/baloo2_bold"
+                android:gravity="center_vertical"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="16dp"/>
+
+            <TextView
+                android:id="@+id/name_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/baloo2_bold"
+                android:gravity="center_vertical"
+                android:text="Name"
+                android:textColor="@color/dark_brown"
+                android:textSize="38dp" />
+
+            <TextView
+                android:id="@+id/time_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/baloo2_bold"
+                android:gravity="center_vertical"
+                android:text="Time"
+                android:textColor="@color/dark_brown"
+                android:textSize="38dp" />
+
+            <TextView
+                android:id="@+id/score_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Score"
+                android:textColor="@color/dark_brown"
+                android:textSize="38dp"
+                android:fontFamily="@font/baloo2_bold"
+                android:gravity="center_vertical"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="8dp"/>
+
+        </LinearLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:padding="8dp"
+            android:id="@+id/score_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

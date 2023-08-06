@@ -13,6 +13,8 @@ import com.nomad.mybrainmemory.util.StaticConstants;
 
 public class MatchingStartScreen extends AppCompatActivity {
     Button startButton;
+
+    Button scoreBoardButton;
     ProgressBar progressBar;
     TextView progressText;
     @Override
@@ -22,6 +24,7 @@ public class MatchingStartScreen extends AppCompatActivity {
         startButton = findViewById(R.id.start_button);
         progressBar = findViewById(R.id.progressBar);
         progressText = findViewById(R.id.progressText);
+        scoreBoardButton = findViewById(R.id.score_board_button);
 //        progressBar.setIndeterminate(true);
 //        progressBar.setVisibility(View.VISIBLE);
         // Show the ProgressBar
@@ -48,6 +51,14 @@ public class MatchingStartScreen extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(MatchingStartScreen.this, DifficultyLevelScreen.class);
                 i.putExtra(StaticConstants.KEY_GAME_NAME, StaticConstants.GAME_MATCHING);
+                startActivity(i);
+            }
+        });
+
+        scoreBoardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MatchingStartScreen.this, ScoreBoardScreen.class);
                 startActivity(i);
             }
         });

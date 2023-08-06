@@ -23,6 +23,13 @@ public class PopulateCard {
         arrayList.add(new CardModel("koala", R.drawable.star, R.drawable.koala));
         arrayList.add(new CardModel("rhino", R.drawable.star, R.drawable.rhino));
         arrayList.add(new CardModel("tiger", R.drawable.star, R.drawable.tiger));
+        arrayList.add(new CardModel("lemon", R.drawable.star, R.drawable.lemon2));
+        arrayList.add(new CardModel("orange", R.drawable.star, R.drawable.orange));
+        arrayList.add(new CardModel("pear", R.drawable.star, R.drawable.pear));
+        arrayList.add(new CardModel("strawberry", R.drawable.star, R.drawable.strawberry));
+        arrayList.add(new CardModel("yellowfruit", R.drawable.star, R.drawable.yellowfruit));
+        arrayList.add(new CardModel("wetpear", R.drawable.star, R.drawable.wetpear));
+
 
         if (arrayList.size() > numCards) {
             arrayList.subList(numCards, arrayList.size()).clear();

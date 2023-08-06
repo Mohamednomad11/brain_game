@@ -10,13 +10,14 @@ import com.nomad.mybrainmemory.R;
 
 
 public class ScoreHolder extends RecyclerView.ViewHolder {
-    private TextView rank, name, score;
+    private TextView rank, name, score,time;
 
     public ScoreHolder(@NonNull View itemView) {
         super(itemView);
         rank = itemView.findViewById(R.id.rank_txt);
         name = itemView.findViewById(R.id.name_txt);
         score = itemView.findViewById(R.id.score_txt);
+        time = itemView.findViewById(R.id.time_txt);
     }
 
     public TextView getRank() {
@@ -32,4 +33,7 @@ public class ScoreHolder extends RecyclerView.ViewHolder {
         return score;
     }
 
+    public TextView getTime() {
+        return time;
+    }
 }

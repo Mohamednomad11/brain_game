@@ -48,37 +48,16 @@
                     android:text="@string/memory"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title"
                     android:textColor="@color/light_pink"
-                    tools:text="Memory" />
-
-                <TextView
-                    android:id="@+id/level_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Level 1"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                    android:textColor="@color/light_pink"
-                    tools:text="Level 1" />
+                    tools:text="Username" />
             </LinearLayout>
 
         </LinearLayout>
-
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:padding="8dp"
-            android:background="@drawable/avatro_liner_bkg"
-            android:gravity="start"
-            android:text="@string/memory"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:textColor="@color/light_pink"
-            tools:text="Memory" />
+        
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:id="@+id/ll_game_menu"
             android:orientation="horizontal"
             android:layout_marginTop="32dp"
             android:weightSum="2"
@@ -136,10 +115,28 @@
             </LinearLayout>
 
 
-
         </LinearLayout>
 
+        <Button
+            android:id="@+id/btn_generate_report"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/onboard_button_bkg"
+            android:layout_marginTop="48dp"
+            android:layout_marginHorizontal="16dp"
+            android:text="@string/generate_report" />
+
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="invisible"
+        android:background="@drawable/avatro_liner_bkg" />
 
 
 </RelativeLayout>

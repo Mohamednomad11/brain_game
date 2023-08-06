@@ -14,14 +14,14 @@
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
 
-        <item name="textInputStyle">@style/CustomTextInputLayout</item>
+<!--        <item name="textInputStyle">@style/CustomTextInputLayout</item>-->
 
         <item name="android:fontFamily">@font/baloo2_bold</item>
     </style>
 
-    <style name="CustomTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
-        <item name="boxBackgroundMode">none</item>
-    </style>
+<!--    <style name="CustomTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">-->
+<!--        <item name="boxBackgroundMode">none</item>-->
+<!--    </style>-->
 
     <style name="Custom_TextInputLayout_Alert_Dialog" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxStrokeColor">@color/green</item>
@@ -32,4 +32,27 @@
         <item name="android:progressDrawable">@drawable/custom_horizontal_progress_bar</item>
         <!-- Customize other attributes as needed -->
     </style>
+
+
+    <style name="ErrorTextAppearance" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@android:color/holo_orange_dark</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold|italic</item>
+    </style>
+
+    <style name="HelperTextAppearance" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@android:color/holo_green_dark</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold|italic</item>
+    </style>
+
+    <style name="HintTextAppearance" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@android:color/holo_green_dark</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="EditTextThemeOverlay" parent="ThemeOverlay.AppCompat">
+        <item name="colorAccent">@android:color/holo_blue_light</item>
+    </style>
+
 </resources>

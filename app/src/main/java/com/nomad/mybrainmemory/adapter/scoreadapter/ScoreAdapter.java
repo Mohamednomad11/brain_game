@@ -1,5 +1,6 @@
 package com.nomad.mybrainmemory.adapter.scoreadapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ public class ScoreAdapter extends RecyclerView.Adapter<ScoreHolder> {
 
     public ScoreAdapter(ArrayList<ScoreModel> scoreModels){
         this.scoreModels = scoreModels;
+        Log.e("Score Adapter", " "+scoreModels.size());
     }
 
     @NonNull
@@ -30,9 +32,11 @@ public class ScoreAdapter extends RecyclerView.Adapter<ScoreHolder> {
     @Override
     public void onBindViewHolder(@NonNull ScoreHolder holder, int position) {
         ScoreModel scoreModel = scoreModels.get(position);
+        Log.e("Score Model",scoreModel.toString());
         holder.getName().setText(scoreModel.getName());
         holder.getScore().setText(String.valueOf(scoreModel.getScore()));
-        holder.getRank().setText(String.valueOf(position + 2));
+        holder.getRank().setText(String.valueOf(position + 1));
+        holder.getTime().setText(String.valueOf(scoreModel.getTime()));
     }
 
     @Override
