@@ -56,7 +56,7 @@ public class RoundThree extends Fragment {
 
 
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 6));
-        PopulateCard populateCard = new PopulateCard(36);
+        PopulateCard populateCard = new PopulateCard(36,3);
         CardAdapter cardAdapter = new CardAdapter(populateCard.populateCard(), getContext(), gameModel, gameScore, animScore, populateCard.getTotalAnimals(), getParentFragmentManager(), "Round 3", timerUtils);
         recyclerView.setAdapter(cardAdapter);
         gameScore.setText(String.valueOf(gameModel.getScore()));

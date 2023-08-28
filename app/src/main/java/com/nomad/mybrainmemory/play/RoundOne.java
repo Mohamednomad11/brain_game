@@ -54,7 +54,7 @@ public class RoundOne extends Fragment {
         timerUtils.startTimer();
 
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        PopulateCard populateCard = new PopulateCard(4);
+        PopulateCard populateCard = new PopulateCard(8,1);
         CardAdapter cardAdapter = new CardAdapter(populateCard.populateCard(), getContext(), gameModel, gameScore, animScore, populateCard.getTotalAnimals(), getParentFragmentManager(), "Round 1",timerUtils);
         recyclerView.setAdapter(cardAdapter);
 

@@ -87,8 +87,8 @@ public class PuzzleActivity extends AppCompatActivity {
 
 
         TextView timerTextView = findViewById(R.id.timerTextView);
-        TimerUtils timerUtils = new TimerUtils(30000,timerTextView);
-        timerUtils.startTimer();
+//        TimerUtils timerUtils = new TimerUtils(30000,timerTextView);
+//        timerUtils.startTimer();
 
         Intent intent = getIntent();
 
@@ -116,6 +116,8 @@ public class PuzzleActivity extends AppCompatActivity {
                         }
                         horizontalResolution = 3;
                         verticalResolution = 3;
+                        TimerUtils timerUtils = new TimerUtils(120000,timerTextView);
+                        timerUtils.startTimer();
                     }else if(difficultyLevel.equals(StaticConstants.LEVEL_MEDIUM)){
                         Bitmap image = null;
                         try {
@@ -128,6 +130,8 @@ public class PuzzleActivity extends AppCompatActivity {
                         }
                         horizontalResolution = 4;
                         verticalResolution = 4;
+                        TimerUtils timerUtils = new TimerUtils(180000,timerTextView);
+                        timerUtils.startTimer();
                     }else if(difficultyLevel.equals(StaticConstants.LEVEL_HARD)){
                         Bitmap image = null;
                         try {
@@ -140,6 +144,8 @@ public class PuzzleActivity extends AppCompatActivity {
                         }
                         horizontalResolution = 5;
                         verticalResolution = 5;
+                        TimerUtils timerUtils = new TimerUtils(240000,timerTextView);
+                        timerUtils.startTimer();
                     }
                     puzzlePiecesList = puzzle.createPuzzlePieces(PuzzleActivity.this, sourceBitmap, widthFinal, heightFinal, imageView, "/puzzles/", horizontalResolution, verticalResolution);
 

@@ -51,11 +51,11 @@ public class RoundTwo extends Fragment {
         infoBox = new InfoBox();
 
         TextView timerTextView = view.findViewById(R.id.timerTextView);
-        TimerUtils timerUtils = new TimerUtils(120000,timerTextView,"Round 1",RoundTwo.this,gameModel);
+        TimerUtils timerUtils = new TimerUtils(120000,timerTextView,"Round 2",RoundTwo.this,gameModel);
         timerUtils.startTimer();
 
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 4));
-        PopulateCard populateCard = new PopulateCard(24);
+        PopulateCard populateCard = new PopulateCard(16,2);
         CardAdapter cardAdapter = new CardAdapter(populateCard.populateCard(), getContext(), gameModel, gameScore, animScore, populateCard.getTotalAnimals(), getParentFragmentManager(), "Round 2", timerUtils);
         recyclerView.setAdapter(cardAdapter);
         gameScore.setText(String.valueOf(gameModel.getScore()));

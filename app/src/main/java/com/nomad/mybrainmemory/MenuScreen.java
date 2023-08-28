@@ -92,8 +92,8 @@ public class MenuScreen extends AppCompatActivity {
         });
 
 
-        progressBar.setVisibility(View.VISIBLE);
-        downLoadMatchingImage();
+//        progressBar.setVisibility(View.VISIBLE);
+//        downLoadMatchingImage();
     }
 
     private void downLoadMatchingImage(){

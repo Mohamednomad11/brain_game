@@ -2,6 +2,7 @@ package com.nomad.mybrainmemory.adapter.gameadapter;
 
 import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardHolder> {
 
     TimerUtils timerUtils;
 
+    boolean firstFlip = false;
+
     public CardAdapter(ArrayList<CardModel> mData, Context context, GameModel gameModel, TextView gameScore, TextView animScore, int totalCard, FragmentManager fragment, String fragment_round_num, TimerUtils timerUtils){
         this.mData = mData;
         this.context = context;
@@ -67,6 +70,11 @@ public class CardAdapter extends RecyclerView.Adapter<CardHolder> {
         holder.getFrontImage().setImageResource(model.getFront_img());
         Handler handler = new Handler();
         gameLogic(holder.getEasyFlipView(), handler, model, scoreAnimation);
+        Log.e("Flip count",position + " " + getItemCount());
+        if(position == getItemCount()-1){
+            firstFlip = true;
+            Log.e("Flip count","First flip set to true");
+        }
     }
 
     @Override
@@ -75,6 +83,12 @@ public class CardAdapter extends RecyclerView.Adapter<CardHolder> {
     }
 
     public void gameLogic(EasyFlipView flipView, Handler handler, CardModel model, ScoreAnimation scoreAnimation){
+        if(!firstFlip){
+            flipView.setFlipDuration(1000);
+            flipView.flipTheView(true);
+            Log.e("Flip anim","set to 1000");
+        }
+
         flipView.setOnFlipListener(new EasyFlipView.OnFlipAnimationListener() {
             @Override
             public void onViewFlipCompleted(EasyFlipView easyFlipView, EasyFlipView.FlipState newCurrentSide) {
