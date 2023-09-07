@@ -2,6 +2,7 @@ package com.nomad.mybrainmemory.util;
 
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -93,7 +94,15 @@ public class TimerUtils {
                 // Timer finished, handle any required actions here
                 isTimerRunning = false;
                 updateTimer();
-                parentFragment.getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, new FailedScreen(gameModel, roundName)).commit();
+
+                try {
+                    parentFragment.getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, new FailedScreen(gameModel, roundName)).commit();
+                }catch (Exception e){
+                    Log.e("Timer Utils",e.toString());
+                }
+
+
+
             }
         };
 
@@ -113,6 +122,13 @@ public class TimerUtils {
             startTimer();
         }
     }
+
+    public  void finishTimer(){
+            if (isTimerRunning) {
+               countDownTimer.cancel();
+            }
+    }
+
 
     private void updateTimer() {
         int seconds = (int) (timeLeftInMillis / 1000);

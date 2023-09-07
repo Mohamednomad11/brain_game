@@ -26,6 +26,6 @@
     <string name="restart">Restart</string>
     <string name="resume">Resume</string>
     <string name="retryLevel">Retry</string>
-    <string name="score_board">Score Board</string>
+    <string name="score_board">Performance History</string>
     <string name="generate_report">Generate Report</string>
 </resources>

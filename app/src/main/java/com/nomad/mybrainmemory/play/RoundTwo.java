@@ -1,6 +1,7 @@
 package com.nomad.mybrainmemory.play;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +18,11 @@ import com.nomad.mybrainmemory.R;
 import com.nomad.mybrainmemory.adapter.gameadapter.CardAdapter;
 import com.nomad.mybrainmemory.game.InfoBox;
 import com.nomad.mybrainmemory.game.PopulateCard;
+import com.nomad.mybrainmemory.model.CardModel;
 import com.nomad.mybrainmemory.model.GameModel;
 import com.nomad.mybrainmemory.util.TimerUtils;
+
+import java.util.ArrayList;
 
 
 public class RoundTwo extends Fragment {
@@ -28,6 +32,8 @@ public class RoundTwo extends Fragment {
     TextView gameScore, animScore;
     ImageView backBtn, infoBtn;
     InfoBox infoBox;
+
+    private Handler firstViewHandler = new Handler();
 
     public RoundTwo(GameModel gameModel){
         this.gameModel = gameModel;
@@ -52,17 +58,29 @@ public class RoundTwo extends Fragment {
 
         TextView timerTextView = view.findViewById(R.id.timerTextView);
         TimerUtils timerUtils = new TimerUtils(120000,timerTextView,"Round 2",RoundTwo.this,gameModel);
-        timerUtils.startTimer();
+//        timerUtils.startTimer();
 
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 4));
         PopulateCard populateCard = new PopulateCard(16,2);
-        CardAdapter cardAdapter = new CardAdapter(populateCard.populateCard(), getContext(), gameModel, gameScore, animScore, populateCard.getTotalAnimals(), getParentFragmentManager(), "Round 2", timerUtils);
+        ArrayList<CardModel> cardList = populateCard.populateCard();
+        alterImages(cardList);
+        CardAdapter cardAdapter = new CardAdapter(cardList, getContext(), gameModel, gameScore, animScore, populateCard.getTotalAnimals(), getParentFragmentManager(), "Round 2", timerUtils);
         recyclerView.setAdapter(cardAdapter);
         gameScore.setText(String.valueOf(gameModel.getScore()));
+
+        firstViewHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                alterImages(cardAdapter.getmData());
+                cardAdapter.notifyDataSetChanged();
+                timerUtils.startTimer();
+            }
+        },30000);
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                timerUtils.finishTimer();
                 getActivity().finish();
             }
         });
@@ -74,5 +92,13 @@ public class RoundTwo extends Fragment {
                 infoBox.createPauseDialog(getContext(),timerUtils,RoundTwo.this,gameModel, "Round 2");
             }
         });
+    }
+
+
+    private  void alterImages(ArrayList<CardModel> cardList){
+        for (CardModel card:
+                cardList) {
+            card.alterImages();
+        }
     }
 }

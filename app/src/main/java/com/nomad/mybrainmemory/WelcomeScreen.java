@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.nomad.mybrainmemory.game.ScoreDB;
 
 public class WelcomeScreen extends AppCompatActivity {
     Button loginButton, signupButton;
@@ -19,6 +20,7 @@ public class WelcomeScreen extends AppCompatActivity {
         setContentView(R.layout.welcome_screen);
 
         FirebaseApp.initializeApp(this);
+        ScoreDB scoreDB = new ScoreDB(this);
 
 
         loginButton = findViewById(R.id.login_button);

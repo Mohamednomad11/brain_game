@@ -120,6 +120,7 @@ public class InfoBox {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
+                timerUtils.pauseTimer();
                 parentFragment.getActivity().finish();
             }
         });

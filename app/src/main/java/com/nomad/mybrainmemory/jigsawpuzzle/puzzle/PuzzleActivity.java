@@ -63,6 +63,7 @@ public class PuzzleActivity extends AppCompatActivity {
     int horizontalResolution = 4;
     int verticalResolution = 3;
 
+    TimerUtils timerUtils;
 
 
 
@@ -116,7 +117,7 @@ public class PuzzleActivity extends AppCompatActivity {
                         }
                         horizontalResolution = 3;
                         verticalResolution = 3;
-                        TimerUtils timerUtils = new TimerUtils(120000,timerTextView);
+                        timerUtils = new TimerUtils(120000,timerTextView);
                         timerUtils.startTimer();
                     }else if(difficultyLevel.equals(StaticConstants.LEVEL_MEDIUM)){
                         Bitmap image = null;
@@ -130,7 +131,7 @@ public class PuzzleActivity extends AppCompatActivity {
                         }
                         horizontalResolution = 4;
                         verticalResolution = 4;
-                        TimerUtils timerUtils = new TimerUtils(180000,timerTextView);
+                        timerUtils = new TimerUtils(180000,timerTextView);
                         timerUtils.startTimer();
                     }else if(difficultyLevel.equals(StaticConstants.LEVEL_HARD)){
                         Bitmap image = null;
@@ -144,7 +145,7 @@ public class PuzzleActivity extends AppCompatActivity {
                         }
                         horizontalResolution = 5;
                         verticalResolution = 5;
-                        TimerUtils timerUtils = new TimerUtils(240000,timerTextView);
+                        timerUtils = new TimerUtils(240000,timerTextView);
                         timerUtils.startTimer();
                     }
                     puzzlePiecesList = puzzle.createPuzzlePieces(PuzzleActivity.this, sourceBitmap, widthFinal, heightFinal, imageView, "/puzzles/", horizontalResolution, verticalResolution);
@@ -233,6 +234,12 @@ public class PuzzleActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
 
+    }
+
+    @Override
+    protected void onStop() {
+        timerUtils.finishTimer();
+        super.onStop();
     }
 
     static public class MyClickListener implements View.OnLongClickListener {

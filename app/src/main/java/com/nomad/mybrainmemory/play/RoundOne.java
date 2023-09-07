@@ -1,6 +1,7 @@
 package com.nomad.mybrainmemory.play;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +18,11 @@ import com.nomad.mybrainmemory.R;
 import com.nomad.mybrainmemory.adapter.gameadapter.CardAdapter;
 import com.nomad.mybrainmemory.game.InfoBox;
 import com.nomad.mybrainmemory.game.PopulateCard;
+import com.nomad.mybrainmemory.model.CardModel;
 import com.nomad.mybrainmemory.model.GameModel;
 import com.nomad.mybrainmemory.util.TimerUtils;
+
+import java.util.ArrayList;
 
 
 public class RoundOne extends Fragment {
@@ -28,6 +32,8 @@ public class RoundOne extends Fragment {
     TextView gameScore, animScore;
     ImageView backBtn, infoBtn;
     InfoBox infoBox;
+
+    private Handler firstViewHandler = new Handler();
 
     public RoundOne(GameModel gameModel){
         this.gameModel = gameModel;
@@ -51,16 +57,29 @@ public class RoundOne extends Fragment {
 
         TextView timerTextView = view.findViewById(R.id.timerTextView);
         TimerUtils timerUtils = new TimerUtils(180000,timerTextView,"Round 1",RoundOne.this,gameModel);
-        timerUtils.startTimer();
+//        timerUtils.startTimer();
 
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         PopulateCard populateCard = new PopulateCard(8,1);
-        CardAdapter cardAdapter = new CardAdapter(populateCard.populateCard(), getContext(), gameModel, gameScore, animScore, populateCard.getTotalAnimals(), getParentFragmentManager(), "Round 1",timerUtils);
+        ArrayList<CardModel> cardList = populateCard.populateCard();
+        alterImages(cardList);
+        CardAdapter cardAdapter = new CardAdapter(cardList, getContext(), gameModel, gameScore, animScore, populateCard.getTotalAnimals(), getParentFragmentManager(), "Round 1",timerUtils);
         recyclerView.setAdapter(cardAdapter);
+
+
+        firstViewHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                alterImages(cardAdapter.getmData());
+                cardAdapter.notifyDataSetChanged();
+                timerUtils.startTimer();
+            }
+        },30000);
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                timerUtils.finishTimer();
                 getActivity().finish();
             }
         });
@@ -73,6 +92,14 @@ public class RoundOne extends Fragment {
 
             }
         });
+    }
+
+    private  void alterImages(ArrayList<CardModel> cardList){
+        for (CardModel card:
+                cardList) {
+            card.alterTouchability();
+            card.alterImages();
+        }
     }
 
 

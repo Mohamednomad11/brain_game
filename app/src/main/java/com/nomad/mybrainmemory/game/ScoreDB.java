@@ -17,7 +17,7 @@ import java.util.Comparator;
 
 public class ScoreDB extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "ScoreDB";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     private static final String TABLE_SCORES = "scores";
     private static final String COLUMN_ID = "id";

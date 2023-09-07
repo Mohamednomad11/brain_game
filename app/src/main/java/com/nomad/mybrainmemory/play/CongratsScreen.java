@@ -1,5 +1,6 @@
 package com.nomad.mybrainmemory.play;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,7 +17,9 @@ import androidx.fragment.app.Fragment;
 import com.nomad.mybrainmemory.PlayScreenMatching;
 import com.nomad.mybrainmemory.R;
 import com.nomad.mybrainmemory.game.InfoBox;
+import com.nomad.mybrainmemory.game.ScoreDB;
 import com.nomad.mybrainmemory.model.GameModel;
+import com.nomad.mybrainmemory.util.StaticConstants;
 
 
 public class CongratsScreen extends Fragment {
@@ -28,14 +31,28 @@ public class CongratsScreen extends Fragment {
     String fragment_round_num;
     InfoBox infoBox;
 
+    ScoreDB scoreDB;
+
     public CongratsScreen(GameModel gameModel, String fragment_round_num){
         this.gameModel = gameModel;
         this.fragment_round_num = fragment_round_num;
+
+    }
+
+    public  void saveScore(GameModel gameModel){
+        String name = StaticConstants.CURRENT_USER_NAME;
+        String score = String.valueOf(gameModel.getScore()) ;
+        String time = String.valueOf(gameModel.getTimeSpent()) ;
+
+        scoreDB.addScore(name,score,time,StaticConstants.GAME_MATCHING);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Context context = requireContext();
+        scoreDB = new ScoreDB(context);
+        saveScore(gameModel);
         return inflater.inflate(R.layout.fragment_congrats_screen, container, false);
     }
 

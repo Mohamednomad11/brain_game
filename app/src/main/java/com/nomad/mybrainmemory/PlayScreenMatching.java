@@ -28,17 +28,12 @@ public class PlayScreenMatching extends AppCompatActivity {
 
 
         gameModel = new GameModel();
-        Log.e("PlayScreenMatching","Starting  level" + difficultyLevel);
-
 
         if(difficultyLevel.equals(StaticConstants.LEVEL_EASY)){
-            Log.e("PlayScreenMatching","Starting easy level");
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new RoundOne(gameModel)).commit();
         }else if (difficultyLevel.equals(StaticConstants.LEVEL_MEDIUM)){
-            Log.e("PlayScreenMatching","Starting medium level");
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new RoundTwo(gameModel)).commit();
         }else if (difficultyLevel.equals(StaticConstants.LEVEL_HARD)){
-            Log.e("PlayScreenMatching","Starting hard level");
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new RoundThree(gameModel)).commit();
         }
 

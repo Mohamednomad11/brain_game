@@ -70,11 +70,11 @@ public class CardAdapter extends RecyclerView.Adapter<CardHolder> {
         holder.getFrontImage().setImageResource(model.getFront_img());
         Handler handler = new Handler();
         gameLogic(holder.getEasyFlipView(), handler, model, scoreAnimation);
-        Log.e("Flip count",position + " " + getItemCount());
-        if(position == getItemCount()-1){
-            firstFlip = true;
-            Log.e("Flip count","First flip set to true");
-        }
+//        Log.e(" onBindViewHolder ---- Flip count",position + " " + getItemCount());
+//        if(position == getItemCount()-1){
+//            firstFlip = true;
+//            Log.e("Flip count","First flip set to true");
+//        }
     }
 
     @Override
@@ -82,12 +82,25 @@ public class CardAdapter extends RecyclerView.Adapter<CardHolder> {
         return mData.size();
     }
 
+
+    public ArrayList<CardModel> getmData(){
+        return mData;
+    }
+
     public void gameLogic(EasyFlipView flipView, Handler handler, CardModel model, ScoreAnimation scoreAnimation){
-        if(!firstFlip){
-            flipView.setFlipDuration(1000);
-            flipView.flipTheView(true);
-            Log.e("Flip anim","set to 1000");
+//        if(!firstFlip){
+//            flipView.setFlipDuration(1000);
+//            flipView.flipTheView(true);
+//            Log.e("Flip anim","set to 1000");
+//        }
+
+        if(model.isTouchable()){
+            flipView.setFlipOnTouch(true);
+        }else{
+            flipView.setFlipOnTouch(false);
         }
+
+        flipView.setFlipDuration(1000);
 
         flipView.setOnFlipListener(new EasyFlipView.OnFlipAnimationListener() {
             @Override
@@ -136,24 +149,25 @@ public class CardAdapter extends RecyclerView.Adapter<CardHolder> {
 
                 if(totalCard == 0){
                     gameModel.setTimeSpent(timerUtils.getTimeLeftInSeconds());
+                    timerUtils.finishTimer();
 
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             if(fragment_round_num.equals("Round 1")){
                                 gameModel.updateLevelStatus(1,true);
-                                InfoBox infoBox = new InfoBox();
-                                infoBox.addNameScore(context, String.valueOf(gameModel.getScore()),String.valueOf(gameModel.getTimeSpent()), StaticConstants.GAME_MATCHING);
+//                                InfoBox infoBox = new InfoBox();
+//                                infoBox.addNameScore(context, String.valueOf(gameModel.getScore()),String.valueOf(gameModel.getTimeSpent()), StaticConstants.GAME_MATCHING);
                                 fragment.beginTransaction().replace(R.id.fragment_container, new CongratsScreen(gameModel, "Round 1")).commit();
                             }else  if(fragment_round_num.equals("Round 2")){
                                 gameModel.updateLevelStatus(2,true);
-                                InfoBox infoBox = new InfoBox();
-                                infoBox.addNameScore(context, String.valueOf(gameModel.getScore()),String.valueOf(gameModel.getTimeSpent()), StaticConstants.GAME_MATCHING);
+//                                InfoBox infoBox = new InfoBox();
+//                                infoBox.addNameScore(context, String.valueOf(gameModel.getScore()),String.valueOf(gameModel.getTimeSpent()), StaticConstants.GAME_MATCHING);
                                 fragment.beginTransaction().replace(R.id.fragment_container, new CongratsScreen(gameModel, "Round 2")).commit();
                             } else if(fragment_round_num.equals("Round 3")){
                                 gameModel.updateLevelStatus(3,true);
-                                InfoBox infoBox = new InfoBox();
-                                infoBox.addNameScore(context, String.valueOf(gameModel.getScore()),String.valueOf(gameModel.getTimeSpent()), StaticConstants.GAME_MATCHING);
+//                                InfoBox infoBox = new InfoBox();
+//                                infoBox.addNameScore(context, String.valueOf(gameModel.getScore()),String.valueOf(gameModel.getTimeSpent()), StaticConstants.GAME_MATCHING);
                                 fragment.beginTransaction().replace(R.id.fragment_container, new CongratsScreen(gameModel, "Round 3")).commit();
                             }
                         }
