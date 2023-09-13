@@ -98,6 +98,7 @@ public class RoundTwo extends Fragment {
     private  void alterImages(ArrayList<CardModel> cardList){
         for (CardModel card:
                 cardList) {
+            card.alterTouchability();
             card.alterImages();
         }
     }

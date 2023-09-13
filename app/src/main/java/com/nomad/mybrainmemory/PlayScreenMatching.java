@@ -7,6 +7,8 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.nomad.mybrainmemory.model.GameModel;
+import com.nomad.mybrainmemory.play.RoundHard;
+import com.nomad.mybrainmemory.play.RoundMedium;
 import com.nomad.mybrainmemory.play.RoundOne;
 import com.nomad.mybrainmemory.play.RoundThree;
 import com.nomad.mybrainmemory.play.RoundTwo;
@@ -34,7 +36,8 @@ public class PlayScreenMatching extends AppCompatActivity {
         }else if (difficultyLevel.equals(StaticConstants.LEVEL_MEDIUM)){
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new RoundTwo(gameModel)).commit();
         }else if (difficultyLevel.equals(StaticConstants.LEVEL_HARD)){
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new RoundThree(gameModel)).commit();
+//            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new RoundThree(gameModel)).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new RoundHard(gameModel)).commit();
         }
 
 
