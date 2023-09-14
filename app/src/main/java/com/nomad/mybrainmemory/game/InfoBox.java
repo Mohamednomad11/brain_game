@@ -134,7 +134,7 @@ public class InfoBox {
                     parentFragment.getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, new RoundOne(gameModel)).commit();
                 }else  if(roundName.equals("Round 2")){
                     parentFragment.getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, new RoundTwo(gameModel)).commit();
-                } else if(roundName.equals("Round 3")){
+                } else if(roundName.equals("Round Hard")){
                     parentFragment.getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, new RoundThree(gameModel)).commit();
                 }
             }

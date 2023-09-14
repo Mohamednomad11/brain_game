@@ -2,6 +2,116 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/light_pink">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        android:padding="8dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/back_btn"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/back"
+                android:elevation="10dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="32dp"
+                android:orientation="horizontal"
+                android:weightSum="3"
+                android:layout_centerInParent="true">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_weight="1">
+                    <TextView
+                        android:id="@+id/tvLabelLevel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="32sp"
+                        android:textColor="@color/dark_brown"
+                        android:text="Level" />
+                    <TextView
+                        android:id="@+id/tvlLevel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="24sp"
+                        android:textColor="@color/dark_brown"
+                        android:text="Easy" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_weight="1">
+                    <TextView
+                        android:id="@+id/tvGame_scoreLevel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:textSize="32sp"
+                        android:textColor="@color/dark_brown"
+                        android:text="Score" />
+                    <TextView
+                        android:id="@+id/game_score"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:textSize="24sp"
+                        android:textColor="@color/dark_brown"
+                        android:text="00" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_weight="1">
+                    <TextView
+                        android:id="@+id/tvTimeLevel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:textSize="32sp"
+                        android:textColor="@color/dark_brown"
+                        android:text="Time" />
+                    <TextView
+                        android:id="@+id/timerTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:textSize="24sp"
+                        android:textColor="@color/dark_brown"
+                        android:text="00" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/info_btn"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/info"
+                android:layout_alignParentEnd="true"
+                android:elevation="10dp"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginVertical="32dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -268,4 +378,5 @@
 
 </LinearLayout>
 
+</LinearLayout>
 </LinearLayout>

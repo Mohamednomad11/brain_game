@@ -74,12 +74,12 @@ public class FailedScreen extends Fragment {
                     getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, new RoundTwo(gameModel)).commit();
                 }
             });
-        }  else if(fragment_round_num.equals("Round 3")){
+        }  else if(fragment_round_num.equals("Round Hard")){
 
             retryBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, new RoundThree(gameModel)).commit();
+                    getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, new RoundHard(gameModel)).commit();
                 }
             });
         }

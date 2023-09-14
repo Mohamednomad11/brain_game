@@ -19,8 +19,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nomad.mybrainmemory.R;
+import com.nomad.mybrainmemory.game.InfoBox;
+import com.nomad.mybrainmemory.game.ScoreAnimation;
 import com.nomad.mybrainmemory.model.CardModel;
 import com.nomad.mybrainmemory.model.GameModel;
+import com.nomad.mybrainmemory.util.TimerUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,21 +35,11 @@ import java.util.Objects;
 
 public class RoundHard extends Fragment{
 
-//    RecyclerView recyclerView;
     GameModel gameModel;
-//    TextView gameScore, animScore;
-//    ImageView backBtn, infoBtn;
-//    InfoBox infoBox;
+    TextView gameScore, animScore;
+    ImageView backBtn, infoBtn;
+    InfoBox infoBox;
 
-//    ---------
-//@BindView(R.id.rvTop)
-    RecyclerView rvTop;
-//    @BindView(R.id.rvBottom)
-    RecyclerView rvBottom;
-//    @BindView(R.id.tvEmptyListTop)
-//    TextView tvEmptyListTop;
-//    @BindView(R.id.tvEmptyListBottom)
-//    TextView tvEmptyListBottom;
 
     private Handler firstViewHandler = new Handler();
 
@@ -56,6 +49,12 @@ public class RoundHard extends Fragment{
     private boolean isTigerSet = false;
     private boolean isRhinoSet = false;
     private boolean isGiraffeSet = false;
+
+    TimerUtils timerUtils;
+
+    ScoreAnimation scoreAnimation = new ScoreAnimation();
+
+    Handler handler = new Handler();
 
     public RoundHard(GameModel gameModel){
         this.gameModel = gameModel;
@@ -71,6 +70,13 @@ public class RoundHard extends Fragment{
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
+        infoBtn = view.findViewById(R.id.info_btn);
+        gameScore = view.findViewById(R.id.tvGame_scoreLevel);
+        animScore = view.findViewById(R.id.game_score);
+        backBtn = view.findViewById(R.id.back_btn);
+        infoBox = new InfoBox();
 
         ImageView image_elephant = view.findViewById(R.id.ivLeftImage1);
         ImageView image_giraffe = view.findViewById(R.id.ivLeftImage2);
@@ -109,6 +115,9 @@ public class RoundHard extends Fragment{
         textView4.setText(textList.get(3));
 
 
+        TextView timerTextView = view.findViewById(R.id.timerTextView);
+        timerUtils = new TimerUtils(180000,timerTextView,"Round Hard",RoundHard.this,gameModel);
+        timerUtils.startTimer();
 
         image_elephant.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -195,6 +204,24 @@ public class RoundHard extends Fragment{
             }
         });
 
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timerUtils.finishTimer();
+                getActivity().finish();
+            }
+        });
+
+        infoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timerUtils.pauseTimer();
+                infoBox.createPauseDialog(getContext(),timerUtils,RoundHard.this,gameModel,"Round Hard");
+
+            }
+        });
+
     }
 
     private void handleDropEvent(CardView cardView, DragEvent event, int ivRightImageId, TextView textView) {
@@ -212,7 +239,9 @@ public class RoundHard extends Fragment{
                         if(textName.equals("Elephant") && !isElephantSet){
                             cardImageView.setImageResource(R.drawable.elephant);
                             isElephantSet = true;
+                            scoreAnimation.animationScore(animScore, "+10");
                             gameModel.setScore(+10);
+                            scoreAnimation.delaySetText(gameScore, String.valueOf(gameModel.getScore()));
                         }else{
                             Toast.makeText(getContext(), "Image does not match", Toast.LENGTH_LONG).show();
                         }
@@ -221,7 +250,9 @@ public class RoundHard extends Fragment{
                         if(textName.equals("Giraffe") && !isGiraffeSet){
                             cardImageView.setImageResource(R.drawable.giraffe);
                             isGiraffeSet = true;
+                            scoreAnimation.animationScore(animScore, "+10");
                             gameModel.setScore(+10);
+                            scoreAnimation.delaySetText(gameScore, String.valueOf(gameModel.getScore()));
                         }else{
                             Toast.makeText(getContext(), "Image does not match", Toast.LENGTH_LONG).show();
                         }
@@ -230,7 +261,9 @@ public class RoundHard extends Fragment{
                         if(textName.equals("Rhino") && !isRhinoSet){
                             cardImageView.setImageResource(R.drawable.rhino);
                             isRhinoSet = true;
+                            scoreAnimation.animationScore(animScore, "+10");
                             gameModel.setScore(+10);
+                            scoreAnimation.delaySetText(gameScore, String.valueOf(gameModel.getScore()));
                         }else{
                             Toast.makeText(getContext(), "Image does not match", Toast.LENGTH_LONG).show();
                         }
@@ -239,13 +272,32 @@ public class RoundHard extends Fragment{
                         if(textName.equals("Tiger") && !isTigerSet){
                             cardImageView.setImageResource(R.drawable.tiger);
                             isTigerSet = true;
+                            scoreAnimation.animationScore(animScore, "+10");
                             gameModel.setScore(+10);
+                            scoreAnimation.delaySetText(gameScore, String.valueOf(gameModel.getScore()));
                         }else{
                             Toast.makeText(getContext(), "Image does not match", Toast.LENGTH_LONG).show();
                         }
                         break;
                     // Handle other cases for additional ImageViews
                 }
+                if(gameModel.getScore() == 40){
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            gameModel.setTimeSpent(timerUtils.getTimeLeftInSeconds());
+                            timerUtils.finishTimer();
+                            gameModel.updateLevelStatus(3,true);
+//                                InfoBox infoBox = new InfoBox();
+//                                infoBox.addNameScore(context, String.valueOf(gameModel.getScore()),String.valueOf(gameModel.getTimeSpent()), StaticConstants.GAME_MATCHING);
+                            getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, new CongratsScreen(gameModel, "Round 3")).commit();
+
+                        }
+                    },500);
+
+                }
+
                 break;
         }
     }

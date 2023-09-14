@@ -50,8 +50,8 @@ public class RoundOne extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         recyclerView = view.findViewById(R.id.animals_card);
         infoBtn = view.findViewById(R.id.info_btn);
-        gameScore = view.findViewById(R.id.game_score);
-        animScore = view.findViewById(R.id.anim_score);
+        gameScore = view.findViewById(R.id.tvGame_scoreLevel);
+        animScore = view.findViewById(R.id.game_score);
         backBtn = view.findViewById(R.id.back_btn);
         infoBox = new InfoBox();
 
