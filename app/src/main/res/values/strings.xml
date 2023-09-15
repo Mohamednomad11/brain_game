@@ -28,4 +28,5 @@
     <string name="retryLevel">Retry</string>
     <string name="score_board">Performance History</string>
     <string name="generate_report">Generate Report</string>
+    <string name="access_patient_report">Access Patients Report</string>
 </resources>

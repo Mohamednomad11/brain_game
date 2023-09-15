@@ -30,13 +30,18 @@ import java.util.List;
 public class MenuScreen extends AppCompatActivity {
     LinearLayout matchingButton, jigsawButton;
 
-    TextView nameText;
+    TextView nameText,adminText;
 
     ProgressBar progressBar;
 
     Button generateReport;
 
+
+    LinearLayout topProfile;
+
     LinearLayout gameMenu;
+
+    LinearLayout llAdminInfo;
 
     FirebaseStorage storage = FirebaseStorage.getInstance();
     @Override
@@ -46,13 +51,21 @@ public class MenuScreen extends AppCompatActivity {
         matchingButton = findViewById(R.id.ll_image_matching);
         jigsawButton = findViewById(R.id.ll_jigsaw_puzzle);
         nameText = findViewById(R.id.name_text);
+        adminText = findViewById(R.id.nameTextView);
         nameText.setText(StaticConstants.CURRENT_USER_NAME);
+
         generateReport = findViewById(R.id.btn_generate_report);
         gameMenu = findViewById(R.id.ll_game_menu);
+        llAdminInfo = findViewById(R.id.ll_admin_info);
+
+        topProfile = findViewById(R.id.ll_top_profile);
 
         progressBar = findViewById(R.id.progressBar);
 
         progressBar.setVisibility(View.INVISIBLE);
+
+        llAdminInfo.setVisibility(View.INVISIBLE);
+
 
 
         StorePreference storePreference = new StorePreference(this);
@@ -64,7 +77,11 @@ public class MenuScreen extends AppCompatActivity {
            generateReport.setVisibility(View.INVISIBLE);
 
        }else if(userType.equals(StaticConstants.VAL_USER_TYPE_ADMIN)){
-           gameMenu.setVisibility(View.INVISIBLE);
+           topProfile.setVisibility(View.GONE);
+           gameMenu.setVisibility(View.GONE);
+           adminText.setText(StaticConstants.CURRENT_USER_NAME);
+           llAdminInfo.setVisibility(View.VISIBLE);
+           generateReport.setVisibility(View.VISIBLE);
        }
 
         matchingButton.setOnClickListener(new View.OnClickListener() {
