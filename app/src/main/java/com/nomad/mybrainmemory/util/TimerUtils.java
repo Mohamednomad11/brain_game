@@ -1,5 +1,6 @@
 package com.nomad.mybrainmemory.util;
 
+import android.content.Context;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
@@ -32,6 +33,8 @@ public class TimerUtils {
 
     private GameModel gameModel;
 
+    private Context context;
+
     public TimerUtils(long totalTimeInMillis,TextView timerTextView) {
         this.totalTimeInMillis = totalTimeInMillis;
         this.timerTextView = timerTextView;
@@ -46,6 +49,17 @@ public class TimerUtils {
         timeLeftInMillis = totalTimeInMillis;
         isTimerRunning = false;
         parentFragment = fragment;
+        this.roundName = roundName;
+        this.gameModel = gameModel;
+        handler = new Handler();
+    }
+
+    public TimerUtils(long totalTimeInMillis, TextView timerTextView, String roundName, Context context, GameModel gameModel) {
+        this.totalTimeInMillis = totalTimeInMillis;
+        this.timerTextView = timerTextView;
+        timeLeftInMillis = totalTimeInMillis;
+        isTimerRunning = false;
+        this.context = context;
         this.roundName = roundName;
         this.gameModel = gameModel;
         handler = new Handler();
@@ -95,6 +109,10 @@ public class TimerUtils {
                 isTimerRunning = false;
                 updateTimer();
 
+                if(context!=null){
+//                  context. getSupportFragmentManager()
+                }
+
                 try {
                     parentFragment.getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, new FailedScreen(gameModel, roundName)).commit();
                 }catch (Exception e){
@@ -138,6 +156,13 @@ public class TimerUtils {
 
     public int getTimeLeftInSeconds() {
         return (int) (timeLeftInMillis / 1000);
+    }
+
+    public  int getTimeSpent(){
+
+        long timeSpentMs = totalTimeInMillis - timeLeftInMillis;
+
+        return (int) (timeSpentMs / 1000);
     }
 
     public void setTimeLeftInMillis(long timeLeftInMillis) {

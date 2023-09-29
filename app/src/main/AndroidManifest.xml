@@ -42,8 +42,15 @@
             android:name=".SearchReportActivity"
             android:exported="false"/>
         <activity
+            android:name=".PerformanceReport"
+            android:exported="false"/>
+        <activity
             android:name=".jigsawpuzzle.puzzle.PuzzleActivity"
             android:screenOrientation="landscape"
+            android:exported="false"/>
+        <activity
+            android:name=".play.CongratsScreenActivity"
+            android:screenOrientation="portrait"
             android:exported="false"/>
         <activity
             android:name=".WelcomeScreen"

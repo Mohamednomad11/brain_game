@@ -281,17 +281,16 @@ public class RoundHard extends Fragment{
                         break;
                     // Handle other cases for additional ImageViews
                 }
-                if(gameModel.getScore() == 40){
+                if(isTigerSet && isRhinoSet && isElephantSet && isGiraffeSet){
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-
                             gameModel.setTimeSpent(timerUtils.getTimeLeftInSeconds());
                             timerUtils.finishTimer();
-                            gameModel.updateLevelStatus(3,true);
+                            gameModel.updateLevelStatus(3,1);
 //                                InfoBox infoBox = new InfoBox();
 //                                infoBox.addNameScore(context, String.valueOf(gameModel.getScore()),String.valueOf(gameModel.getTimeSpent()), StaticConstants.GAME_MATCHING);
-                            getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, new CongratsScreen(gameModel, "Round 3")).commit();
+                            getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, new CongratsScreen(gameModel, "Round Hard")).commit();
 
                         }
                     },500);

@@ -74,6 +74,8 @@ public class MenuScreen extends AppCompatActivity {
 
        if(userType.equals(StaticConstants.VAL_USER_TYPE_USER)){
 
+           llAdminInfo.setVisibility(View.GONE);
+
            generateReport.setVisibility(View.INVISIBLE);
 
        }else if(userType.equals(StaticConstants.VAL_USER_TYPE_ADMIN)){

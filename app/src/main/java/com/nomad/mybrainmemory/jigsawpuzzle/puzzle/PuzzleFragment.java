@@ -1,29 +1,29 @@
 package com.nomad.mybrainmemory.jigsawpuzzle.puzzle;
 
-import android.annotation.TargetApi;
 import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.DragEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,9 +34,6 @@ import com.nomad.mybrainmemory.jigsawpuzzle.models.Pieces;
 import com.nomad.mybrainmemory.jigsawpuzzle.models.PuzzlePiece;
 import com.nomad.mybrainmemory.model.GameModel;
 import com.nomad.mybrainmemory.play.CongratsScreen;
-import com.nomad.mybrainmemory.play.CongratsScreenActivity;
-import com.nomad.mybrainmemory.play.RoundHard;
-import com.nomad.mybrainmemory.play.RoundOne;
 import com.nomad.mybrainmemory.util.StaticConstants;
 import com.nomad.mybrainmemory.util.TimerUtils;
 
@@ -46,7 +43,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class PuzzleActivity extends AppCompatActivity {
+public class PuzzleFragment extends Fragment {
     RelativeLayout relativeLayout;
     FrameLayout scrollView;
     ImageView imageView;
@@ -75,51 +72,50 @@ public class PuzzleActivity extends AppCompatActivity {
 
     InfoBox infoBox;
 
-    TextView scoreTextView;
+
+    public PuzzleFragment(GameModel gameModel){
+        this.gameModel = gameModel;
+    }
 
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.puzzle_activity);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.puzzle_activity, container, false);
+    }
+
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         Log.d("PuzzleActivity","On create");
 
-        context = this;
-        infoBox = new InfoBox();
-        imageView = (ImageView) findViewById(R.id.frameImage);
-        scrollView = (FrameLayout) findViewById(R.id.scrollView);
+        imageView = (ImageView) view.findViewById(R.id.frameImage);
+        scrollView = (FrameLayout) view.findViewById(R.id.scrollView);
         scrollView.setOnDragListener(new MyDragListener(null));
-        relativeLayout = (RelativeLayout) findViewById(R.id.relativeLayout);
+        relativeLayout = (RelativeLayout) view.findViewById(R.id.relativeLayout);
         relativeLayout.setOnDragListener(new MyDragListener(null));
-        rvPuzzle = (RecyclerView) findViewById(R.id.listView2);
+        rvPuzzle = (RecyclerView) view.findViewById(R.id.listView2);
         rvPuzzle.setOnDragListener(new MyDragListener(null));
-        linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        linearLayoutManager = new LinearLayoutManager(getContext());
         rvPuzzle.setLayoutManager(linearLayoutManager);
         puzzle = new Puzzle();
         puzzlePiecesList.clear();
 
 
-        TextView timerTextView = findViewById(R.id.timerTextView);
-        scoreTextView = findViewById(R.id.scoreTextView);
+        TextView timerTextView = view.findViewById(R.id.timerTextView);
 //        TimerUtils timerUtils = new TimerUtils(30000,timerTextView);
 //        timerUtils.startTimer();
 
-        Intent intent = getIntent();
+//        Intent intent = getIntent();
 
 // Retrieve the arguments from the Intent using the same keys
-        String difficultyLevel = intent.getStringExtra(StaticConstants.KEY_DIFFICULTY_LEVEL);
+//        String difficultyLevel = intent.getStringExtra(StaticConstants.KEY_DIFFICULTY_LEVEL);
+//
+//
+//        gameModel = intent.getParcelableExtra(StaticConstants.KEY_GAME_SCORE);
 
-
-        gameModel = intent.getParcelableExtra(StaticConstants.KEY_GAME_SCORE);
-
-        if(gameModel==null){
-            gameModel = new GameModel();
-            scoreTextView.setText("00");
-        }else{
-            int cScore = gameModel.getScore();
-            scoreTextView.setText(String.valueOf(cScore));
-        }
-
+        String difficultyLevel = StaticConstants.LEVEL_MEDIUM;
 
         final ViewTreeObserver obs = scrollView.getViewTreeObserver();
         obs.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -155,7 +151,7 @@ public class PuzzleActivity extends AppCompatActivity {
                         horizontalResolution = 4;
                         verticalResolution = 4;
 
-                        timerUtils =  new TimerUtils(180000,timerTextView,"Round Hard Puzzle", getApplicationContext(),gameModel);
+                        timerUtils =  new TimerUtils(180000,timerTextView,"Round Hard Puzzle", getContext(),gameModel);
                         timerUtils.startTimer();
                     }else if(difficultyLevel.equals(StaticConstants.LEVEL_HARD)){
                         Bitmap image = null;
@@ -172,7 +168,7 @@ public class PuzzleActivity extends AppCompatActivity {
                         timerUtils = new TimerUtils(240000,timerTextView);
                         timerUtils.startTimer();
                     }
-                    puzzlePiecesList = puzzle.createPuzzlePieces(PuzzleActivity.this, sourceBitmap, widthFinal, heightFinal, imageView, "/puzzles/", horizontalResolution, verticalResolution);
+                    puzzlePiecesList = puzzle.createPuzzlePieces(getActivity(), sourceBitmap, widthFinal, heightFinal, imageView, "/puzzles/", horizontalResolution, verticalResolution);
 
                     getAdapter();
                     setPuzzleListAdapter();
@@ -183,6 +179,27 @@ public class PuzzleActivity extends AppCompatActivity {
 //        Log.d("PuzzleActivity","----Set puzzle list adapter-----");
 //        setPuzzleListAdapter();
     }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        // Set the hosting activity to landscape orientation
+        if (getActivity() != null) {
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        // Restore the hosting activity's orientation to portrait
+        if (getActivity() != null) {
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+    }
+
 
     public void getAdapter() {
         RelativeLayout.LayoutParams params;
@@ -196,7 +213,7 @@ public class PuzzleActivity extends AppCompatActivity {
                 int dimY = piece.getAnchorPoint().y - piece.getCenterPoint().y;
 
                 params.setMargins(dimX, dimY, 0, 0);
-                final ImageView button2 = new ImageView(this);
+                final ImageView button2 = new ImageView(getContext());
                 button2.setId(generateViewId());
                 button2.setTag(i + "," + j);
 
@@ -240,31 +257,13 @@ public class PuzzleActivity extends AppCompatActivity {
         if (puzzleListAdapter != null)
             puzzleListAdapter = null;
         Log.d("PuzzleActivity",piecesModelListMain.size() + "---------");
-        puzzleListAdapter = new PuzzleAdapter(this, piecesModelListMain);
+        puzzleListAdapter = new PuzzleAdapter(getContext(), piecesModelListMain);
         rvPuzzle.setHasFixedSize(true);
         rvPuzzle.setAdapter(puzzleListAdapter);
 
         puzzleListAdapter.notifyDataSetChanged();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-
-    }
-
-    @Override
-    protected void onStop() {
-        timerUtils.finishTimer();
-        super.onStop();
-    }
 
     static public class MyClickListener implements View.OnLongClickListener {
 
@@ -340,56 +339,44 @@ public class PuzzleActivity extends AppCompatActivity {
                                 imageView.setImageBitmap(piecesModel.getOriginalResource());
                                 piecesModelListMain.remove(piecesModel);
                                 setPuzzleListAdapter();
-
-                                gameModel.setScore(10);
-                                int currentScore = gameModel.getScore();
-                                Log.e("Puzzle Activity", "Current score is == " + currentScore);
-                                scoreTextView.setText(String.valueOf(currentScore));
+                                gameModel.setScore(gameModel.getScore() + 10);
                                 piecesModel = null;
-//                                infoBox.createPauseDialog(context,timerUtils,null,gameModel,"Round Hard Puzzle");
-//                                Intent i = new Intent(PuzzleActivity.this, CongratsScreenActivity.class);
-//                                i.putExtra(StaticConstants.KEY_GAME_SCORE,gameModel);
-//                                startActivity(i);
                                 if (piecesModelListMain.size() == 0) {
                                     gameModel.setTimeSpent(timerUtils.getTimeSpent());
-                                    Toast.makeText(getApplicationContext(), "GAME OVER", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getContext(), "GAME OVER", Toast.LENGTH_LONG).show();
 //                                    finish();
-//                                    infoBox.createPauseDialog(getBaseContext(),timerUtils,null,gameModel,"Round Hard Puzzle");
-//                                    getSupportFragmentManager().beginTransaction().replace(R.id.scrollView,  new CongratsScreen(gameModel, "Round Hard Puzzle")).commit();
-
-                                    Intent i = new Intent(PuzzleActivity.this, CongratsScreenActivity.class);
-                                    i.putExtra(StaticConstants.KEY_GAME_SCORE,gameModel);
-                                    startActivity(i);
+//                                    infoBox.createPauseDialog(this,timerUtils,RoundOne.this,gameModel,"Round 1");
+                                    getParentFragmentManager().beginTransaction().replace(R.id.scrollView,  new CongratsScreen(gameModel, "Round Hard Puzzle")).commit();
 
                                 } else {
-                                    Toast.makeText(getApplicationContext(), "The correct Puzzle", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getContext(), "The correct Puzzle", Toast.LENGTH_LONG).show();
                                 }
                             } else {
                                 piecesModel = null;
                                 view.setVisibility(View.VISIBLE);
-                                Toast.makeText(getApplicationContext(), "Not the correct Puzzle", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getContext(), "Not the correct Puzzle", Toast.LENGTH_LONG).show();
                                 break;
                             }
                         } else {
                             View view1 = (View) event.getLocalState();
                             view1.setVisibility(View.VISIBLE);
-                            Toast.makeText(getApplicationContext(), "You can't drop the image here", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), "You can't drop the image here", Toast.LENGTH_LONG).show();
                             break;
                         }
                     } else if (v == scrollView) {
                         View view1 = (View) event.getLocalState();
                         view1.setVisibility(View.VISIBLE);
-                        Toast.makeText(getApplicationContext(), "You can't drop the image here", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "You can't drop the image here", Toast.LENGTH_LONG).show();
                         break;
                     } else if (v == rvPuzzle) {
                         View view1 = (View) event.getLocalState();
                         view1.setVisibility(View.VISIBLE);
-                        Toast.makeText(getApplicationContext(), "You can't drop the image here", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "You can't drop the image here", Toast.LENGTH_LONG).show();
                         break;
                     } else {
                         View view = (View) event.getLocalState();
                         view.setVisibility(View.VISIBLE);
-                        Toast.makeText(getApplicationContext(), "You can't drop the image here", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "You can't drop the image here", Toast.LENGTH_LONG).show();
                         break;
                     }
                     break;

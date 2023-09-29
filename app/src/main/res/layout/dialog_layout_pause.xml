@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- dialog_layout.xml -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -51,7 +55,9 @@
         android:layout_gravity="center"
         android:background="@drawable/onboard_button_bkg"
         android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
         android:layout_marginHorizontal="16dp"
         android:text="@string/quit" />
 
 </LinearLayout>
+</ScrollView>

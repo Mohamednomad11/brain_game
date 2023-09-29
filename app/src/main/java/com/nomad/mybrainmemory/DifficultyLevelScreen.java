@@ -56,7 +56,7 @@ public class DifficultyLevelScreen extends AppCompatActivity {
                 progressBar.setVisibility(View.VISIBLE);
                 if(gameName.equals(StaticConstants.GAME_MATCHING)){
                     Intent i = new Intent(DifficultyLevelScreen.this, PlayScreenMatching.class);
-                    i.putExtra(StaticConstants.KEY_DIFFICULTY_LEVEL, StaticConstants.LEVEL_MEDIUM);
+                    i.putExtra(StaticConstants.KEY_DIFFICULTY_LEVEL, StaticConstants.LEVEL_HARD);
                     startActivity(i);
                 }else if(StaticConstants.GAME_JIGSAW.equals(gameName)){
                     Intent i = new Intent(DifficultyLevelScreen.this, PuzzleActivity.class);
@@ -71,8 +71,11 @@ public class DifficultyLevelScreen extends AppCompatActivity {
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
                 if(gameName.equals(StaticConstants.GAME_MATCHING)){
-                    Intent i = new Intent(DifficultyLevelScreen.this, PlayScreenMatching.class);
-                    i.putExtra(StaticConstants.KEY_DIFFICULTY_LEVEL, StaticConstants.LEVEL_HARD);
+//                    Intent i = new Intent(DifficultyLevelScreen.this, PlayScreenMatching.class);
+//                    i.putExtra(StaticConstants.KEY_DIFFICULTY_LEVEL, StaticConstants.LEVEL_HARD);
+//                    startActivity(i);
+                    Intent i = new Intent(DifficultyLevelScreen.this, PuzzleActivity.class);
+                    i.putExtra(StaticConstants.KEY_DIFFICULTY_LEVEL, StaticConstants.LEVEL_MEDIUM);
                     startActivity(i);
                 }else if(StaticConstants.GAME_JIGSAW.equals(gameName)){
                     Intent i = new Intent(DifficultyLevelScreen.this, PuzzleActivity.class);
@@ -81,6 +84,17 @@ public class DifficultyLevelScreen extends AppCompatActivity {
                 }
             }
         });
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        // Start the specific activity when the back button is pressed
+        Intent intent = new Intent(this, MatchingStartScreen.class);
+        startActivity(intent);
+
+        // Finish the current activity (optional, depending on your use case)
+        finish();
     }
 
     @Override

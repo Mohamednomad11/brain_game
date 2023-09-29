@@ -74,7 +74,7 @@ public class RoundOne extends Fragment {
                 cardAdapter.notifyDataSetChanged();
                 timerUtils.startTimer();
             }
-        },30000);
+        },10000);
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override

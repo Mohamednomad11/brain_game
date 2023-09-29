@@ -1,9 +1,17 @@
 package com.nomad.mybrainmemory.util;
 
+import com.nomad.mybrainmemory.model.ScoreModel;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class StaticConstants {
     public static final String KEY_GAME_NAME = "game_name";
+
+    public static final String KEY_GAME_SCORE = "game_score";
+
+    public static final String KEY_SCORE_REPORT = "score_report";
     public static final String GAME_MATCHING = "matching";
     public static final String GAME_JIGSAW = "jigsaw";
 
@@ -38,9 +46,8 @@ public class StaticConstants {
     // shared pref key
     public static final String KEY_USER_TYPE = "userType";
 
-
-
-
+    public static List<ScoreModel> scoreList = new ArrayList<>();
+    public static HashMap<String,List<ScoreModel>> userScoreMap = new HashMap<>();
 
 
 }

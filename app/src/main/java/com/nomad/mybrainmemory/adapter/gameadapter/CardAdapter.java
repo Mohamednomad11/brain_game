@@ -148,24 +148,30 @@ public class CardAdapter extends RecyclerView.Adapter<CardHolder> {
                 //gameScore.setText(String.valueOf(gameModel.getScore()));
 
                 if(totalCard == 0){
-                    gameModel.setTimeSpent(timerUtils.getTimeLeftInSeconds());
+                    gameModel.setTimeSpent(timerUtils.getTimeSpent());
                     timerUtils.finishTimer();
 
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             if(fragment_round_num.equals("Round 1")){
-                                gameModel.updateLevelStatus(1,true);
+
+
+                                gameModel.updateLevelStatus(1,1);
 //                                InfoBox infoBox = new InfoBox();
 //                                infoBox.addNameScore(context, String.valueOf(gameModel.getScore()),String.valueOf(gameModel.getTimeSpent()), StaticConstants.GAME_MATCHING);
                                 fragment.beginTransaction().replace(R.id.fragment_container, new CongratsScreen(gameModel, "Round 1")).commit();
                             }else  if(fragment_round_num.equals("Round 2")){
-                                gameModel.updateLevelStatus(2,true);
+
+
+                                gameModel.updateLevelStatus(2,1);
 //                                InfoBox infoBox = new InfoBox();
 //                                infoBox.addNameScore(context, String.valueOf(gameModel.getScore()),String.valueOf(gameModel.getTimeSpent()), StaticConstants.GAME_MATCHING);
                                 fragment.beginTransaction().replace(R.id.fragment_container, new CongratsScreen(gameModel, "Round 2")).commit();
                             } else if(fragment_round_num.equals("Round 3")){
-                                gameModel.updateLevelStatus(3,true);
+
+
+                                gameModel.updateLevelStatus(3,1);
 //                                InfoBox infoBox = new InfoBox();
 //                                infoBox.addNameScore(context, String.valueOf(gameModel.getScore()),String.valueOf(gameModel.getTimeSpent()), StaticConstants.GAME_MATCHING);
                                 fragment.beginTransaction().replace(R.id.fragment_container, new CongratsScreen(gameModel, "Round 3")).commit();

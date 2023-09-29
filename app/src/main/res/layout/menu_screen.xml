@@ -166,12 +166,12 @@
             android:id="@+id/ll_game_menu"
             android:orientation="horizontal"
             android:layout_marginTop="32dp"
-            android:weightSum="2"
             >
             <LinearLayout
                 android:id="@+id/ll_image_matching"
                 android:layout_width="0dp"
                 android:layout_height="356dp"
+                android:gravity="center_horizontal"
                 android:orientation="vertical"
                 android:layout_weight="1"
                 android:layout_margin="8dp"
@@ -195,10 +195,11 @@
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/ll_jigsaw_puzzle"
+                android:visibility="gone"
                 android:layout_width="0dp"
                 android:layout_height="356dp"
                 android:orientation="vertical"
-                android:layout_weight="1"
+                android:layout_weight="0"
                 android:layout_margin="8dp"
                 android:padding="8dp"
                 android:weightSum="2"

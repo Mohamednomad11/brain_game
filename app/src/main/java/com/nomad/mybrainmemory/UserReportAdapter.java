@@ -2,26 +2,31 @@ package com.nomad.mybrainmemory;
 
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
-        import android.view.LayoutInflater;
+import android.content.Intent;
+import android.view.LayoutInflater;
         import android.view.View;
         import android.view.ViewGroup;
-        import android.widget.TextView;
+import android.widget.Button;
+import android.widget.TextView;
         import androidx.annotation.NonNull;
-        import androidx.recyclerview.widget.RecyclerView;
-        import java.util.List;
+
+import com.nomad.mybrainmemory.model.ScoreModel;
+import com.nomad.mybrainmemory.util.StaticConstants;
+
+import java.util.List;
 
 public class UserReportAdapter extends RecyclerView.Adapter<UserReportAdapter.UserViewHolder> {
 
     private Context context;
-    private List<String> users;
+    private List<ScoreModel> userReports;
 
-    public UserReportAdapter(Context context, List<String> users) {
+    public UserReportAdapter(Context context, List<ScoreModel> users) {
         this.context = context;
-        this.users = users;
+        this.userReports = users;
     }
 
-    public void setUsers(List<String> users) {
-        this.users = users;
+    public void setUserReports(List<ScoreModel> userReports) {
+        this.userReports = userReports;
         notifyDataSetChanged();
     }
 
@@ -34,21 +39,41 @@ public class UserReportAdapter extends RecyclerView.Adapter<UserReportAdapter.Us
 
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
-        String userName = users.get(position);
+        String userName = userReports.get(position).getName();
         holder.textViewUserName.setText(userName);
+        holder.buttonGenerateView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(context, PerformanceReport.class);
+                ScoreModel userReportMpdel = userReports.get(holder.getAdapterPosition());
+                i.putExtra(StaticConstants.KEY_SCORE_REPORT,userReportMpdel);
+                context.startActivity(i);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return users.size();
+        return userReports.size();
     }
 
     static class UserViewHolder extends RecyclerView.ViewHolder {
         TextView textViewUserName;
+        Button buttonGenerateView;
 
         public UserViewHolder(@NonNull View itemView) {
             super(itemView);
+            int itemPos = getAdapterPosition();
+            Context context = itemView.getContext();
             textViewUserName = itemView.findViewById(R.id.textViewUserName);
+            buttonGenerateView = itemView.findViewById(R.id.btn_generate_report);
+//            buttonGenerateView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Intent i = new Intent(context, PerformanceReport.class);
+//                    context.startActivity(i);
+//                }
+//            });
         }
     }
 }

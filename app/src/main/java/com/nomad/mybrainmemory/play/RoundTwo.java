@@ -50,10 +50,10 @@ public class RoundTwo extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView = view.findViewById(R.id.animals_card);
-        gameScore = view.findViewById(R.id.game_score);
+        gameScore = view.findViewById(R.id.tvGame_scoreLevel);
         infoBtn = view.findViewById(R.id.info_btn);
         backBtn = view.findViewById(R.id.back_btn);
-        animScore = view.findViewById(R.id.anim_score);
+        animScore = view.findViewById(R.id.game_score);
         infoBox = new InfoBox();
 
         TextView timerTextView = view.findViewById(R.id.timerTextView);
