@@ -1,6 +1,7 @@
 package com.nomad.mybrainmemory.util;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
@@ -9,8 +10,10 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import com.nomad.mybrainmemory.R;
+import com.nomad.mybrainmemory.jigsawpuzzle.puzzle.PuzzleActivity;
 import com.nomad.mybrainmemory.model.GameModel;
 import com.nomad.mybrainmemory.play.CongratsScreen;
+import com.nomad.mybrainmemory.play.CongratsScreenActivity;
 import com.nomad.mybrainmemory.play.FailedScreen;
 import com.nomad.mybrainmemory.play.RoundOne;
 
@@ -35,7 +38,13 @@ public class TimerUtils {
 
     private Context context;
 
-    public TimerUtils(long totalTimeInMillis,TextView timerTextView) {
+    private TimerCallback timerCallback;
+
+    public void setTimerCallback(TimerCallback timerCallback) {
+        this.timerCallback = timerCallback;
+    }
+
+    public TimerUtils(long totalTimeInMillis, TextView timerTextView) {
         this.totalTimeInMillis = totalTimeInMillis;
         this.timerTextView = timerTextView;
         timeLeftInMillis = totalTimeInMillis;
@@ -117,6 +126,15 @@ public class TimerUtils {
                     parentFragment.getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, new FailedScreen(gameModel, roundName)).commit();
                 }catch (Exception e){
                     Log.e("Timer Utils",e.toString());
+
+//                    Intent i = new Intent(PuzzleActivity.this, FailedScreen.class);
+//                    i.putExtra(StaticConstants.KEY_GAME_SCORE,gameModel);
+//                    startActivity(i);
+//                    finish();
+                }
+
+                if(timerCallback!=null){
+                    timerCallback.onTimerFinished();
                 }
 
 
@@ -167,6 +185,14 @@ public class TimerUtils {
 
     public void setTimeLeftInMillis(long timeLeftInMillis) {
         this.timeLeftInMillis = timeLeftInMillis;
+    }
+
+
+    public interface TimerCallback{
+
+//        void onTimerPaused();
+        void onTimerFinished();
+
     }
 }
 

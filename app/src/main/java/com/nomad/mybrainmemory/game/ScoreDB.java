@@ -9,19 +9,17 @@ import android.util.Log;
 
 
 import com.google.firebase.Timestamp;
-import com.google.type.DateTime;
 import com.nomad.mybrainmemory.model.ScoreModel;
 import com.nomad.mybrainmemory.util.FireStoreUtils;
 import com.nomad.mybrainmemory.util.StaticConstants;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
 public class ScoreDB extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "ScoreDB";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 2;
 
     private static final String TABLE_SCORES = "scores";
     private static final String COLUMN_ID = "id";
@@ -35,6 +33,12 @@ public class ScoreDB extends SQLiteOpenHelper {
     private static final String COLUMN_GAME = "game";
 
     private static final String COLUMN_TIMESTAMP = "timestamp";
+
+    private static final String COLUMN_ACCURACY = "accuracy";
+
+    private static final String COLUMN_AVG_REACT_TIME = "avgreactiontime";
+
+    private static final String COLUMN_AVG_SCC_REACT_TIME = "avgsucreactiontime";
 
     public ScoreDB(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -50,6 +54,9 @@ public class ScoreDB extends SQLiteOpenHelper {
                 COLUMN_SCORE + " TEXT," +
                 COLUMN_TIME + " TEXT," +
                 COLUMN_GAME + " TEXT," +
+                COLUMN_ACCURACY + " REAL," +
+                COLUMN_AVG_REACT_TIME + " INTEGER," +
+                COLUMN_AVG_SCC_REACT_TIME + " INTEGER," +
                 COLUMN_TIMESTAMP + " TEXT" +
                 ")";
         db.execSQL(createTable);
@@ -89,6 +96,25 @@ public class ScoreDB extends SQLiteOpenHelper {
         return rowId;
     }
 
+
+    public long addScore(String name, String score, String time, String game, Timestamp timestamp,float accuracy, long avgReactTime, long avgSucReacTime) {
+        long rowId;
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_NAME, name);
+        values.put(COLUMN_SCORE, score);
+        values.put(COLUMN_TIME,time);
+        values.put(COLUMN_GAME,game);
+        values.put(COLUMN_ACCURACY,accuracy);
+        values.put(COLUMN_AVG_REACT_TIME,avgReactTime);
+        values.put(COLUMN_AVG_SCC_REACT_TIME,avgSucReacTime);
+        String timeStampText = FireStoreUtils.timestampToString(timestamp);
+        values.put(COLUMN_TIMESTAMP, timeStampText);
+        rowId = db.insert(TABLE_SCORES, null, values);
+        db.close();
+        return rowId;
+    }
+
     public long addScore(String uid, String name, String score, String time, String game, Timestamp timestamp) {
         long rowId;
         SQLiteDatabase db = getWritableDatabase();
@@ -117,6 +143,10 @@ public class ScoreDB extends SQLiteOpenHelper {
         int gameIndex = cursor.getColumnIndex(COLUMN_GAME);
         int timeStampIndex = cursor.getColumnIndex(COLUMN_TIMESTAMP);
 
+        int accuracyIndex = cursor.getColumnIndex(COLUMN_ACCURACY);
+        int avgReactIndex = cursor.getColumnIndex(COLUMN_AVG_REACT_TIME);
+        int avgSucReactIndex = cursor.getColumnIndex(COLUMN_AVG_SCC_REACT_TIME);
+
 
         while (cursor.moveToNext()) {
             if (idIndex >= 0 && nameIndex >= 0 && scoreIndex >= 0) {
@@ -126,9 +156,13 @@ public class ScoreDB extends SQLiteOpenHelper {
                 String score = cursor.getString(scoreIndex);
                 String time = cursor.getString(timeIndex);
                 String game = cursor.getString(gameIndex);
+                float accuracy = cursor.getFloat(accuracyIndex);
+                long avgReactionTime = cursor.getLong(avgReactIndex);
+                long avgReactionTimeSuccess = cursor.getLong(avgSucReactIndex);
+//                Log.e("ScoreDB", "Accuracy -- " + accuracy + " avg r t "+ avgReactionTime  + "av s r t "+ avgReactionTimeSuccess);
                 String timeStampText = cursor.getString(timeStampIndex);
                 Timestamp timeStamp = FireStoreUtils.stringToTimestamp(timeStampText);
-                scoreModel = new ScoreModel(id, Integer.parseInt(score), name, time, game,timeStamp,uid);
+                scoreModel = new ScoreModel(id, Integer.parseInt(score), name, time, game,timeStamp,uid,accuracy,avgReactionTime,avgReactionTimeSuccess);
             }
         }
 
@@ -138,7 +172,11 @@ public class ScoreDB extends SQLiteOpenHelper {
     public ArrayList<ScoreModel> viewAllScores(){
         ArrayList<ScoreModel> scores = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_SCORES, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_SCORES + " WHERE " + COLUMN_NAME + " LIKE '%" + StaticConstants.CURRENT_USER_NAME + "%'", null);
+
+//        String query = "SELECT * FROM " + TABLE_SCORES + " WHERE " + COLUMN_NAME + " LIKE '%" + StaticConstants.CURRENT_USER_NAME + "%'";
+
+//        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_SCORES + " WHERE rowid = " + rowID ,null);
 
         int idIndex = cursor.getColumnIndex(COLUMN_ID);
         int nameIndex = cursor.getColumnIndex(COLUMN_NAME);
@@ -147,6 +185,10 @@ public class ScoreDB extends SQLiteOpenHelper {
         int timeIndex = cursor.getColumnIndex(COLUMN_TIME);
         int gameIndex = cursor.getColumnIndex(COLUMN_GAME);
         int timeStampIndex = cursor.getColumnIndex(COLUMN_TIMESTAMP);
+
+        int accuracyIndex = cursor.getColumnIndex(COLUMN_ACCURACY);
+        int avgReactIndex = cursor.getColumnIndex(COLUMN_AVG_REACT_TIME);
+        int avgSucReactIndex = cursor.getColumnIndex(COLUMN_AVG_SCC_REACT_TIME);
 
 
         while (cursor.moveToNext()) {
@@ -157,9 +199,12 @@ public class ScoreDB extends SQLiteOpenHelper {
                 String score = cursor.getString(scoreIndex);
                 String time = cursor.getString(timeIndex);
                 String game = cursor.getString(gameIndex);
+                float accuracy = cursor.getFloat(accuracyIndex);
+                long avgReactionTime = cursor.getLong(avgReactIndex);
+                long avgReactionTimeSuccess = cursor.getLong(avgSucReactIndex);
                 String timeStampText = cursor.getString(timeStampIndex);
                 Timestamp timeStamp = FireStoreUtils.stringToTimestamp(timeStampText);
-                ScoreModel scoreModel = new ScoreModel(id, Integer.parseInt(score), name,time,game,timeStamp,uid);
+                ScoreModel scoreModel = new ScoreModel(id, Integer.parseInt(score), name,time,game,timeStamp,uid,accuracy,avgReactionTime,avgReactionTimeSuccess);
                 scores.add(scoreModel);
             }
         }

@@ -30,11 +30,14 @@ import com.github.mikephil.charting.utils.Utils;
 import com.google.firebase.FirebaseApp;
 import com.nomad.mybrainmemory.game.ScoreDB;
 import com.nomad.mybrainmemory.model.ScoreModel;
+import com.nomad.mybrainmemory.play.CongratsScreenActivity;
+import com.nomad.mybrainmemory.util.ScoreModelComparator;
 import com.nomad.mybrainmemory.util.StaticConstants;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-
+import java.util.Comparator;
 public class PerformanceReport extends AppCompatActivity {
 
 
@@ -48,6 +51,11 @@ public class PerformanceReport extends AppCompatActivity {
     private LineChart chart;
 
     List<ScoreModel> scoreModelList =  new ArrayList<>();
+
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,9 +76,15 @@ public class PerformanceReport extends AppCompatActivity {
 
         Log.e("PerformanceReport", scoreModel.toString());
 
-        tvAccuracy.setText("90%");
-        tvTotalTime.setText(scoreModel.getTime());
-        tvReactionTime.setText("10s");
+        int percentage = (int)(scoreModel.getAccuracy() * 100);
+
+        String totalTimeFormatted = convertSecondsToMinuteSecond(Long.valueOf(scoreModel.getTime()));
+        String reactionTimeFormatted = formatMillisecondsToSeconds(scoreModel.getAvgReactionTime());
+
+
+        tvAccuracy.setText(String.format("%d%%", percentage));
+        tvTotalTime.setText(totalTimeFormatted);
+        tvReactionTime.setText(reactionTimeFormatted);
 
         halfGauge.enableAnimation(true);
         halfGauge.setMinValue(0.0f);
@@ -82,6 +96,9 @@ public class PerformanceReport extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                Intent i = new Intent(PerformanceReport.this, DifficultyLevelScreen.class);
+//                i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//                startActivity(i);
                 finish();
             }
         });
@@ -142,8 +159,8 @@ public class PerformanceReport extends AppCompatActivity {
             yAxis.enableGridDashedLine(10f, 10f, 0f);
 
             // axis range
-            yAxis.setAxisMaximum(300f);
-            yAxis.setAxisMinimum(-50f);
+            yAxis.setAxisMaximum(320f);
+            yAxis.setAxisMinimum(0f);
         }
 
 
@@ -155,18 +172,18 @@ public class PerformanceReport extends AppCompatActivity {
             llXAxis.setTextSize(10f);
 //            llXAxis.setTypeface(tfRegular);
 
-            LimitLine ll1 = new LimitLine(150f, "Upper Limit");
-            ll1.setLineWidth(4f);
-            ll1.enableDashedLine(10f, 10f, 0f);
-            ll1.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
-            ll1.setTextSize(10f);
-//            ll1.setTypeface(tfRegular);
-
-            LimitLine ll2 = new LimitLine(-30f, "Lower Limit");
-            ll2.setLineWidth(4f);
-            ll2.enableDashedLine(10f, 10f, 0f);
-            ll2.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
-            ll2.setTextSize(10f);
+//            LimitLine ll1 = new LimitLine(300f, "Upper Limit");
+//            ll1.setLineWidth(4f);
+//            ll1.enableDashedLine(10f, 10f, 0f);
+//            ll1.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
+//            ll1.setTextSize(10f);
+////            ll1.setTypeface(tfRegular);
+//
+//            LimitLine ll2 = new LimitLine(-30f, "Lower Limit");
+//            ll2.setLineWidth(4f);
+//            ll2.enableDashedLine(10f, 10f, 0f);
+//            ll2.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
+//            ll2.setTextSize(10f);
 //            ll2.setTypeface(tfRegular);
 
             // draw limit lines behind data instead of on top
@@ -174,8 +191,8 @@ public class PerformanceReport extends AppCompatActivity {
             xAxis.setDrawLimitLinesBehindData(true);
 
             // add limit lines
-            yAxis.addLimitLine(ll1);
-            yAxis.addLimitLine(ll2);
+//            yAxis.addLimitLine(ll1);
+//            yAxis.addLimitLine(ll2);
             //xAxis.addLimitLine(llXAxis);
 
 
@@ -184,7 +201,15 @@ public class PerformanceReport extends AppCompatActivity {
 
             scoreModelList = StaticConstants.userScoreMap.getOrDefault(scoreModel.getUid(),null);
 
-            int count = scoreModelList.size();
+
+
+            int count = 0;
+            if(scoreModelList != null){
+                count = scoreModelList.size();
+                Collections.sort(scoreModelList, new ScoreModelComparator());
+            }
+
+
 
             setData(count, 270);
 
@@ -208,6 +233,7 @@ public class PerformanceReport extends AppCompatActivity {
                 ScoreModel scoreModel1 = scoreModelList.get(i);
 //            float val = (float) (Math.random() * range) - 30;
             float val = (float) scoreModel1.getScore();
+            Log.e("Performance Report"," score --- " + val);
             values.add(new Entry(i, val, getResources().getDrawable(R.drawable.star)));
         }
 
@@ -230,12 +256,13 @@ public class PerformanceReport extends AppCompatActivity {
             set1.enableDashedLine(10f, 5f, 0f);
 
             // black lines and points
-            set1.setColor(Color.BLACK);
-            set1.setCircleColor(Color.BLACK);
+            set1.setColor(Color.WHITE);
+            set1.setCircleColor(Color.WHITE);
 
             // line thickness and point size
             set1.setLineWidth(1f);
-            set1.setCircleRadius(3f);
+            set1.setCircleRadius(5f);
+
 
             // draw points as solid circles
             set1.setDrawCircleHole(false);
@@ -279,4 +306,18 @@ public class PerformanceReport extends AppCompatActivity {
             chart.setData(data);
         }
     }
+
+    public static String convertSecondsToMinuteSecond(long totalSeconds) {
+        int minutes = (int) (totalSeconds / 60);
+        int seconds = (int) (totalSeconds % 60);
+
+        return String.format("%02dm:%02ds", minutes, seconds);
+    }
+
+    public static String formatMillisecondsToSeconds(long milliseconds) {
+        double seconds = (double) milliseconds / 1000.0;
+        return String.format("%.1f sec", seconds);
+    }
+
+
 }

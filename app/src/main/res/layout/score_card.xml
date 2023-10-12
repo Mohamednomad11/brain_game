@@ -2,8 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/ll_score_card"
     android:background="@drawable/avatro_liner_bkg"
     android:weightSum="4"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
     android:layout_marginTop="10dp">
 
     <TextView
@@ -13,11 +16,11 @@
         android:layout_weight="1"
         android:text="2"
         android:textColor="@color/white"
-        android:textSize="38dp"
+        android:textSize="18sp"
         android:fontFamily="@font/baloo2_bold"
         android:gravity="center_vertical"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="25dp"/>
+        android:layout_marginLeft="8dp"/>
 
     <TextView
         android:id="@+id/name_txt"
@@ -29,7 +32,7 @@
         android:gravity="center_vertical"
         android:text="Paul Jolou"
         android:textColor="@color/white"
-        android:textSize="32dp" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/time_txt"
@@ -41,7 +44,7 @@
         android:gravity="center_vertical"
         android:text="120 s"
         android:textColor="@color/white"
-        android:textSize="32dp" />
+        android:textSize="18dp" />
 
     <TextView
         android:id="@+id/score_txt"
@@ -50,10 +53,10 @@
         android:layout_weight="1"
         android:text="125"
         android:textColor="@color/white"
-        android:textSize="38dp"
+        android:textSize="18sp"
         android:fontFamily="@font/baloo2_bold"
         android:gravity="center_vertical"
         android:layout_alignParentEnd="true"
-        android:layout_marginRight="25dp"/>
+        android:layout_marginRight="8dp"/>
 
 </LinearLayout>

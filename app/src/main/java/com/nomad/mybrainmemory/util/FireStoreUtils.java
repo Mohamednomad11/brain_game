@@ -68,12 +68,17 @@ public class FireStoreUtils {
         CollectionReference scoreCollectionRef = db.collection("scores");
 
         Map<String, Object> scoreMap = new HashMap<>();
-        scoreMap.put("uid", scoreModel.getUid());
+//        scoreMap.put("uid", scoreModel.getUid());
+//        StaticConstants.CURRENT_USER_FID
+        scoreMap.put("uid",  StaticConstants.CURRENT_USER_FID);
         scoreMap.put("score", scoreModel.getScore());
         scoreMap.put("name", scoreModel.getName());
         scoreMap.put("time", scoreModel.getTime());
         scoreMap.put("game", scoreModel.getGame());
         scoreMap.put("timestamp", scoreModel.getTimeStamp());
+        scoreMap.put("accuracy", scoreModel.getAccuracy());
+        scoreMap.put("avgReactionTime",scoreModel.getAvgReactionTime());
+        scoreMap.put("avgSucReactionTime",scoreModel.getAvgSucReactionTime());
 
         scoreCollectionRef.add(scoreMap)
                 .addOnSuccessListener(documentReference -> {
@@ -84,6 +89,7 @@ public class FireStoreUtils {
                 })
                 .addOnFailureListener(e -> {
                     // Handle any error that occurred while saving to Firestore
+                    Log.e("FireStore","Score not saved with " );
                     e.printStackTrace();
                 });
 

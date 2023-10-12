@@ -56,8 +56,11 @@ public class CongratsScreen extends Fragment {
         String score = String.valueOf(gameModel.getScore()) ;
         String time = String.valueOf(gameModel.getTimeSpent()) ;
         Timestamp timestamp = Timestamp.now();
+        float accuracy = gameModel.getAccuracy();
+        long avgReactionTime = gameModel.getAverageReactionTime();
+        long avgSucReactinTime = gameModel.getAverageSuccessReactionTime();
 
-        long rowId = scoreDB.addScore(name,score,time,StaticConstants.GAME_MATCHING,timestamp);
+        long rowId = scoreDB.addScore(name,score,time,StaticConstants.GAME_MATCHING,timestamp,accuracy,avgReactionTime,avgSucReactinTime);
         ScoreModel scoreModel = scoreDB.getScore(rowId);
         Log.e("Congrats Screen", scoreModel.toString());
         if(Boolean.TRUE.equals(gameModel.getLevelStatus().get(3))){

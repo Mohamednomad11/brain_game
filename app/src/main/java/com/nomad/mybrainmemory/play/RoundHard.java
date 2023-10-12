@@ -56,6 +56,17 @@ public class RoundHard extends Fragment{
 
     Handler handler = new Handler();
 
+
+    private long touchStartTime = 0;
+    private long touchEndTime = 0;
+    private int countSuccessfulPass = 0;
+    private  int countFailedPass = 0;
+    private long reactionTime = 0;
+    private long reactionTimeSuccess = 0;
+    private long totalReactionTime = 0;
+
+
+
     public RoundHard(GameModel gameModel){
         this.gameModel = gameModel;
     }
@@ -77,6 +88,8 @@ public class RoundHard extends Fragment{
         animScore = view.findViewById(R.id.game_score);
         backBtn = view.findViewById(R.id.back_btn);
         infoBox = new InfoBox();
+
+        gameScore.setText(String.valueOf(gameModel.getScore()));
 
         ImageView image_elephant = view.findViewById(R.id.ivLeftImage1);
         ImageView image_giraffe = view.findViewById(R.id.ivLeftImage2);
@@ -126,6 +139,7 @@ public class RoundHard extends Fragment{
                     ClipData data = ClipData.newPlainText("image_resource", "image_elephant");
                     View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(v);
                     v.startDragAndDrop(data, shadowBuilder, v, 0);
+                    touchStartTime = System.currentTimeMillis();
                 }
 
                 return true;
@@ -139,6 +153,7 @@ public class RoundHard extends Fragment{
                     ClipData data = ClipData.newPlainText("image_resource", "image_giraffe");
                     View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(v);
                     v.startDragAndDrop(data, shadowBuilder, v, 0);
+                    touchStartTime = System.currentTimeMillis();
                 }
 
                 return true;
@@ -152,6 +167,7 @@ public class RoundHard extends Fragment{
                     ClipData data = ClipData.newPlainText("image_resource", "image_rhino");
                     View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(v);
                     v.startDragAndDrop(data, shadowBuilder, v, 0);
+                    touchStartTime = System.currentTimeMillis();
                 }
 
                 return true;
@@ -165,6 +181,7 @@ public class RoundHard extends Fragment{
                     ClipData data = ClipData.newPlainText("image_resource", "image_tiger");
                     View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(v);
                     v.startDragAndDrop(data, shadowBuilder, v, 0);
+                    touchStartTime = System.currentTimeMillis();
                 }
 
                 return true;
@@ -234,48 +251,149 @@ public class RoundHard extends Fragment{
                 // Set the image resource for the CardView
                 String textName = textMap.get(textView.getId());
                 Log.e("RoundHard","  " + draggedImageResource  + " textName of target  " + textName);
+                touchEndTime = System.currentTimeMillis();
+
+                reactionTime = touchEndTime - touchStartTime;
+                totalReactionTime = totalReactionTime + reactionTime;
+
                 switch (draggedImageResource) {
                     case "image_elephant":
                         if(textName.equals("Elephant") && !isElephantSet){
+                            countSuccessfulPass++;
+                            reactionTimeSuccess = reactionTimeSuccess + reactionTime;
                             cardImageView.setImageResource(R.drawable.elephant);
                             isElephantSet = true;
-                            scoreAnimation.animationScore(animScore, "+10");
-                            gameModel.setScore(+10);
+
+                            int score =  5;
+
+                            if(reactionTime > 10000){
+
+                                score = 5;
+
+                            }else if(reactionTime > 5000){
+
+                                score = 10;
+
+                            }else if(reactionTime > 3000){
+
+                                score = 15;
+
+                            }else{
+
+                                score = 25;
+
+                            }
+
+                            scoreAnimation.animationScore(animScore, "+"+score);
+                            gameModel.setScore(score);
+
                             scoreAnimation.delaySetText(gameScore, String.valueOf(gameModel.getScore()));
                         }else{
+                            countFailedPass++;
                             Toast.makeText(getContext(), "Image does not match", Toast.LENGTH_LONG).show();
                         }
                         break;
                     case "image_giraffe":
                         if(textName.equals("Giraffe") && !isGiraffeSet){
+                            countSuccessfulPass++;
+                            reactionTimeSuccess = reactionTimeSuccess + reactionTime;
                             cardImageView.setImageResource(R.drawable.giraffe);
                             isGiraffeSet = true;
-                            scoreAnimation.animationScore(animScore, "+10");
-                            gameModel.setScore(+10);
+                            int score =  5;
+
+                            if(reactionTime > 10000){
+
+                                score = 5;
+
+                            }else if(reactionTime > 5000){
+
+                                score = 10;
+
+                            }else if(reactionTime > 3000){
+
+                                score = 15;
+
+                            }else{
+
+                                score = 25;
+
+                            }
+
+                            scoreAnimation.animationScore(animScore, "+"+score);
+                            gameModel.setScore(score);
                             scoreAnimation.delaySetText(gameScore, String.valueOf(gameModel.getScore()));
                         }else{
+                            countFailedPass++;
                             Toast.makeText(getContext(), "Image does not match", Toast.LENGTH_LONG).show();
                         }
                         break;
                     case "image_rhino":
                         if(textName.equals("Rhino") && !isRhinoSet){
+                            countSuccessfulPass++;
+                            reactionTimeSuccess = reactionTimeSuccess + reactionTime;
                             cardImageView.setImageResource(R.drawable.rhino);
                             isRhinoSet = true;
-                            scoreAnimation.animationScore(animScore, "+10");
-                            gameModel.setScore(+10);
+                            int score =  5;
+
+                            if(reactionTime > 10000){
+
+                                score = 5;
+
+                            }else if(reactionTime > 5000){
+
+                                score = 10;
+
+                            }else if(reactionTime > 3000){
+
+                                score = 15;
+
+                            }else{
+
+                                score = 25;
+
+                            }
+
+                            scoreAnimation.animationScore(animScore, "+"+score);
+                            gameModel.setScore(score);
+
                             scoreAnimation.delaySetText(gameScore, String.valueOf(gameModel.getScore()));
                         }else{
+                            countFailedPass++;
                             Toast.makeText(getContext(), "Image does not match", Toast.LENGTH_LONG).show();
                         }
                         break;
                     case "image_tiger":
                         if(textName.equals("Tiger") && !isTigerSet){
+                            countSuccessfulPass++;
+                            reactionTimeSuccess = reactionTimeSuccess + reactionTime;
                             cardImageView.setImageResource(R.drawable.tiger);
                             isTigerSet = true;
-                            scoreAnimation.animationScore(animScore, "+10");
-                            gameModel.setScore(+10);
+                            int score =  5;
+
+                            if(reactionTime > 10000){
+
+                                score = 5;
+
+                            }else if(reactionTime > 5000){
+
+                                score = 10;
+
+                            }else if(reactionTime > 3000){
+
+                                score = 15;
+
+                            }else{
+
+                                score = 25;
+
+                            }
+
+                            scoreAnimation.animationScore(animScore, "+"+score);
+                            gameModel.setScore(score);
+
                             scoreAnimation.delaySetText(gameScore, String.valueOf(gameModel.getScore()));
                         }else{
+                            countFailedPass++;
                             Toast.makeText(getContext(), "Image does not match", Toast.LENGTH_LONG).show();
                         }
                         break;
@@ -285,9 +403,20 @@ public class RoundHard extends Fragment{
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
+
+                            long averageReactionTime = (totalReactionTime/(countSuccessfulPass +countFailedPass));
+                            float accuracy = (float) countSuccessfulPass /(countSuccessfulPass +countFailedPass);
+                            long avrgReactionTimeSuccess = reactionTimeSuccess/4;
+
+                            Log.e("Round Hard","averageReactionTime " + averageReactionTime + "----" +  "accuracy  " + accuracy  + "averageReactionTimeSuccess " + avrgReactionTimeSuccess);
+
+                            gameModel.setAccuracy(accuracy);
+                            gameModel.setAverageReactionTime(averageReactionTime);
+                            gameModel.setAverageSuccessReactionTime(avrgReactionTimeSuccess);
+
                             gameModel.setTimeSpent(timerUtils.getTimeLeftInSeconds());
                             timerUtils.finishTimer();
-                            gameModel.updateLevelStatus(3,1);
+                            gameModel.updateLevelStatus(2,1);
 //                                InfoBox infoBox = new InfoBox();
 //                                infoBox.addNameScore(context, String.valueOf(gameModel.getScore()),String.valueOf(gameModel.getTimeSpent()), StaticConstants.GAME_MATCHING);
                             getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, new CongratsScreen(gameModel, "Round Hard")).commit();

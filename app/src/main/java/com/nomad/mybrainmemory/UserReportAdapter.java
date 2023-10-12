@@ -3,10 +3,13 @@ package com.nomad.mybrainmemory;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
-        import android.view.View;
+import android.view.MotionEvent;
+import android.view.View;
         import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
         import androidx.annotation.NonNull;
 
@@ -41,15 +44,28 @@ public class UserReportAdapter extends RecyclerView.Adapter<UserReportAdapter.Us
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
         String userName = userReports.get(position).getName();
         holder.textViewUserName.setText(userName);
+        holder.buttonGenerateView.setText("GENERATE AVERAGE REPORT");
         holder.buttonGenerateView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(context, PerformanceReport.class);
-                ScoreModel userReportMpdel = userReports.get(holder.getAdapterPosition());
-                i.putExtra(StaticConstants.KEY_SCORE_REPORT,userReportMpdel);
+                ScoreModel userReportModel = userReports.get(holder.getAdapterPosition());
+                Log.e("User Report Adapter", userReportModel.toString());
+                i.putExtra(StaticConstants.KEY_SCORE_REPORT,userReportModel);
                 context.startActivity(i);
             }
         });
+
+       holder.ll_item_card_holder.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               Intent i = new Intent(context, ScoreBoardScreenAdmin.class);
+               ScoreModel userReportModel = userReports.get(holder.getAdapterPosition());
+               Log.e("User Report Adapter", userReportModel.toString());
+               i.putExtra(StaticConstants.KEY_SCORE_REPORT,userReportModel);
+               context.startActivity(i);
+           }
+       });
     }
 
     @Override
@@ -61,10 +77,13 @@ public class UserReportAdapter extends RecyclerView.Adapter<UserReportAdapter.Us
         TextView textViewUserName;
         Button buttonGenerateView;
 
+        LinearLayout ll_item_card_holder;
+
         public UserViewHolder(@NonNull View itemView) {
             super(itemView);
             int itemPos = getAdapterPosition();
             Context context = itemView.getContext();
+            ll_item_card_holder = itemView.findViewById(R.id.ll_user_report_holder);
             textViewUserName = itemView.findViewById(R.id.textViewUserName);
             buttonGenerateView = itemView.findViewById(R.id.btn_generate_report);
 //            buttonGenerateView.setOnClickListener(new View.OnClickListener() {

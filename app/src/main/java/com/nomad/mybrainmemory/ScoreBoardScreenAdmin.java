@@ -3,28 +3,24 @@ package com.nomad.mybrainmemory;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.nomad.mybrainmemory.adapter.gameadapter.CardAdapter;
 import com.nomad.mybrainmemory.adapter.scoreadapter.ScoreAdapter;
-import com.nomad.mybrainmemory.game.PopulateCard;
 import com.nomad.mybrainmemory.game.PopulateScore;
-import com.nomad.mybrainmemory.jigsawpuzzle.puzzle.PuzzleActivity;
 import com.nomad.mybrainmemory.model.ScoreModel;
+import com.nomad.mybrainmemory.util.ScoreModelComparator;
 import com.nomad.mybrainmemory.util.StaticConstants;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
-public class ScoreBoardScreen extends AppCompatActivity {
+public class ScoreBoardScreenAdmin extends AppCompatActivity {
 
     RecyclerView recyclerView;
     ImageView backBtn;
@@ -47,12 +43,15 @@ public class ScoreBoardScreen extends AppCompatActivity {
 
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        PopulateScore populateScore = new PopulateScore(this);
 
+//        ArrayList<ScoreModel> scoreList = getIntent().getParcelableArrayListExtra(StaticConstants.KEY_SCORE_LIST);
+        Intent intent = getIntent();
+        ScoreModel scoreModel = intent.getParcelableExtra(StaticConstants.KEY_SCORE_REPORT);
+        ArrayList<ScoreModel> scoreList = ((ArrayList<ScoreModel>)StaticConstants.userScoreMap.getOrDefault(scoreModel.getUid(),null));
 
+        Collections.sort(scoreList, new ScoreModelComparator());
 
-
-        ScoreAdapter scoreAdapter = new ScoreAdapter(this,populateScore.populateScore());
+        ScoreAdapter scoreAdapter = new ScoreAdapter(this,scoreList);
         recyclerView.setAdapter(scoreAdapter);
 
 
@@ -63,11 +62,10 @@ public class ScoreBoardScreen extends AppCompatActivity {
             }
         });
 
-
         avgPerformanceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ScoreModel averageScoreModel = getAverageScoreModel(populateScore.populateScore());
+               ScoreModel averageScoreModel = getAverageScoreModel(scoreList);
                 Intent i = new Intent(mcontext, PerformanceReport.class);
                 i.putExtra(StaticConstants.KEY_SCORE_REPORT,averageScoreModel);
                 mcontext.startActivity(i);
@@ -110,7 +108,7 @@ public class ScoreBoardScreen extends AppCompatActivity {
 
         // Convert total time back to HH:mm format
         long averageTimeInSeconds = totalTimeInSseconds / scoreList.size();
-        ;
+ ;
 
         System.out.println("Average Score: " + averageScore);
         System.out.println("Average Avg Reaction Time: " + averageAvgReactionTime);

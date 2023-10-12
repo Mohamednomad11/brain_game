@@ -73,6 +73,7 @@ public class LoginScreen extends AppCompatActivity {
 
                                     if (user != null) {
                                         StaticConstants.CURRENT_USER_NAME = user.getDisplayName();
+                                        StaticConstants.CURRENT_USER_FID = user.getUid();
                                     }
 
 

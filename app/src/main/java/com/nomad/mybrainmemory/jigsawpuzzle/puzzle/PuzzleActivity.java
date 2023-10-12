@@ -15,6 +15,8 @@ import android.view.DragEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
@@ -24,6 +26,8 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,6 +39,7 @@ import com.nomad.mybrainmemory.jigsawpuzzle.models.PuzzlePiece;
 import com.nomad.mybrainmemory.model.GameModel;
 import com.nomad.mybrainmemory.play.CongratsScreen;
 import com.nomad.mybrainmemory.play.CongratsScreenActivity;
+import com.nomad.mybrainmemory.play.FailedScreen;
 import com.nomad.mybrainmemory.play.RoundHard;
 import com.nomad.mybrainmemory.play.RoundOne;
 import com.nomad.mybrainmemory.util.StaticConstants;
@@ -46,7 +51,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class PuzzleActivity extends AppCompatActivity {
+public class PuzzleActivity extends AppCompatActivity implements TimerUtils.TimerCallback {
     RelativeLayout relativeLayout;
     FrameLayout scrollView;
     ImageView imageView;
@@ -77,12 +82,25 @@ public class PuzzleActivity extends AppCompatActivity {
 
     TextView scoreTextView;
 
+    FrameLayout fragmentContainer;
+
+    int cScore;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Remove the title bar (if it exists)
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        // Set the activity to be fullscreen
+        getWindow().setFlags(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN
+        );
+
         setContentView(R.layout.puzzle_activity);
-        Log.d("PuzzleActivity","On create");
 
         context = this;
         infoBox = new InfoBox();
@@ -98,11 +116,22 @@ public class PuzzleActivity extends AppCompatActivity {
         puzzle = new Puzzle();
         puzzlePiecesList.clear();
 
+        fragmentContainer = findViewById(R.id.fragment_container);
+
+// To show the fragment
+//        fragmentContainer.setVisibility(View.VISIBLE);
+
+// To hide the fragment
+        fragmentContainer.setVisibility(View.GONE);
+
 
         TextView timerTextView = findViewById(R.id.timerTextView);
         scoreTextView = findViewById(R.id.scoreTextView);
 //        TimerUtils timerUtils = new TimerUtils(30000,timerTextView);
 //        timerUtils.startTimer();
+
+        timerUtils =  new TimerUtils(200000,timerTextView,"Round Hard Puzzle", getApplicationContext(),gameModel);
+        timerUtils.setTimerCallback(this);
 
         Intent intent = getIntent();
 
@@ -116,7 +145,7 @@ public class PuzzleActivity extends AppCompatActivity {
             gameModel = new GameModel();
             scoreTextView.setText("00");
         }else{
-            int cScore = gameModel.getScore();
+            cScore = gameModel.getScore();
             scoreTextView.setText(String.valueOf(cScore));
         }
 
@@ -145,7 +174,7 @@ public class PuzzleActivity extends AppCompatActivity {
                     }else if(difficultyLevel.equals(StaticConstants.LEVEL_MEDIUM)){
                         Bitmap image = null;
                         try {
-                            image = BitmapFactory.decodeResource(getResources(), R.drawable.autumn);
+                            image = BitmapFactory.decodeResource(getResources(), R.drawable.tigerr);
                             sourceBitmap = Bitmap.createScaledBitmap(image, widthFinal, heightFinal, false);
                         } catch (OutOfMemoryError ex) {
                             ex.printStackTrace();
@@ -155,7 +184,9 @@ public class PuzzleActivity extends AppCompatActivity {
                         horizontalResolution = 4;
                         verticalResolution = 4;
 
-                        timerUtils =  new TimerUtils(180000,timerTextView,"Round Hard Puzzle", getApplicationContext(),gameModel);
+//                        timerUtils =  new TimerUtils(180000,timerTextView,"Round Hard Puzzle", getApplicationContext(),gameModel);
+//                        timerUtils.setTimerCallback(this);
+
                         timerUtils.startTimer();
                     }else if(difficultyLevel.equals(StaticConstants.LEVEL_HARD)){
                         Bitmap image = null;
@@ -266,6 +297,22 @@ public class PuzzleActivity extends AppCompatActivity {
         super.onStop();
     }
 
+    @Override
+    public void onTimerFinished() {
+
+        fragmentContainer.setVisibility(View.VISIBLE);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        // need to reset gameModel to initial value so that in retry it shows the initial value
+        gameModel.resetScore(cScore);
+        FailedScreen fragment = new FailedScreen(gameModel, "Round Hard Puzzle"); // Replace with your fragment
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.addToBackStack(null); // Optional, for back navigation
+
+        transaction.commit();
+
+    }
+
     static public class MyClickListener implements View.OnLongClickListener {
 
         // called when the item is long-clicked
@@ -300,6 +347,14 @@ public class PuzzleActivity extends AppCompatActivity {
         }
 
 
+        private long touchStartTime = 0;
+        private long touchEndTime = 0;
+        private int countSuccessfulPass = 0;
+        private  int countFailedPass = 0;
+        private long reactionTime = 0;
+        private long reactionTimeSuccess = 0;
+        private long totalReactionTime = 0;
+
         @Override
         public boolean onDrag(View v, DragEvent event) {
 
@@ -309,6 +364,7 @@ public class PuzzleActivity extends AppCompatActivity {
                 //signal for the start of a drag and drop operation.
                 case DragEvent.ACTION_DRAG_STARTED:
                     // do nothing
+                    touchStartTime = System.currentTimeMillis();
                     break;
 
                 //the drag point has entered the bounding box of the View
@@ -325,6 +381,11 @@ public class PuzzleActivity extends AppCompatActivity {
                 case DragEvent.ACTION_DROP:
                     //v is the dynamic grid imageView, we accept the drag item
                     //view is listView imageView the dragged item
+                    touchEndTime = System.currentTimeMillis();
+
+                    reactionTime = touchEndTime - touchStartTime;
+                    totalReactionTime = totalReactionTime + reactionTime;
+
                     if (v == imageView) {
                         View view = (View) event.getLocalState();
 
@@ -341,31 +402,65 @@ public class PuzzleActivity extends AppCompatActivity {
                                 piecesModelListMain.remove(piecesModel);
                                 setPuzzleListAdapter();
 
-                                gameModel.setScore(10);
+                                countSuccessfulPass++;
+                                reactionTimeSuccess = reactionTimeSuccess + reactionTime;
+
+                                double score =  5;
+
+                                if(reactionTime > 15000){
+
+                                    score = 1;
+
+                                }else if(reactionTime > 10000){
+
+                                    score = 3;
+
+                                }else if(reactionTime > 5000){
+
+                                    score = 5;
+
+                                }else{
+
+                                    score = 6.25;
+
+                                }
+
+                                int scr = (int) score;
+
+                                gameModel.setScore(scr);
                                 int currentScore = gameModel.getScore();
                                 Log.e("Puzzle Activity", "Current score is == " + currentScore);
                                 scoreTextView.setText(String.valueOf(currentScore));
-                                piecesModel = null;
-//                                infoBox.createPauseDialog(context,timerUtils,null,gameModel,"Round Hard Puzzle");
-//                                Intent i = new Intent(PuzzleActivity.this, CongratsScreenActivity.class);
-//                                i.putExtra(StaticConstants.KEY_GAME_SCORE,gameModel);
-//                                startActivity(i);
                                 if (piecesModelListMain.size() == 0) {
+
+                                    long averageReactionTime = (totalReactionTime/(countSuccessfulPass +countFailedPass));
+                                    float accuracy = (float) countSuccessfulPass /(countSuccessfulPass +countFailedPass);
+                                    long avrgReactionTimeSuccess = reactionTimeSuccess/4;
+
+                                    gameModel.setAccuracy(accuracy);
+                                    gameModel.setAverageReactionTime(averageReactionTime);
+                                    gameModel.setAverageSuccessReactionTime(avrgReactionTimeSuccess);
+
+                                    Log.e("Round Puzzle","averageReactionTime " + averageReactionTime + "----" +  "accuracy  " + accuracy  + "averageReactionTimeSuccess " + avrgReactionTimeSuccess);
+
+
                                     gameModel.setTimeSpent(timerUtils.getTimeSpent());
-                                    Toast.makeText(getApplicationContext(), "GAME OVER", Toast.LENGTH_LONG).show();
-//                                    finish();
-//                                    infoBox.createPauseDialog(getBaseContext(),timerUtils,null,gameModel,"Round Hard Puzzle");
-//                                    getSupportFragmentManager().beginTransaction().replace(R.id.scrollView,  new CongratsScreen(gameModel, "Round Hard Puzzle")).commit();
+
+                                    gameModel.updateLevelStatus(3,1);
+
+//                                    Toast.makeText(getApplicationContext(), "GAME OVER", Toast.LENGTH_LONG).show();
+
 
                                     Intent i = new Intent(PuzzleActivity.this, CongratsScreenActivity.class);
                                     i.putExtra(StaticConstants.KEY_GAME_SCORE,gameModel);
                                     startActivity(i);
+                                    finish();
 
                                 } else {
-                                    Toast.makeText(getApplicationContext(), "The correct Puzzle", Toast.LENGTH_LONG).show();
+//                                    Toast.makeText(getApplicationContext(), "The correct Puzzle", Toast.LENGTH_LONG).show();
                                 }
                             } else {
-                                piecesModel = null;
+                                countFailedPass++;
                                 view.setVisibility(View.VISIBLE);
                                 Toast.makeText(getApplicationContext(), "Not the correct Puzzle", Toast.LENGTH_LONG).show();
                                 break;

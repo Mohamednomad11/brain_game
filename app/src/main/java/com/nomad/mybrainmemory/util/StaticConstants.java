@@ -34,6 +34,8 @@ public class StaticConstants {
     public static final String VAL_USER_TYPE_USER = "user";
 
     public static final String VAL_USER_TYPE_ADMIN = "admin";
+    public static final String KEY_SCORE_LIST = "scoreList";
+    public static String CURRENT_USER_FID = "fid";
 
 
     // ---

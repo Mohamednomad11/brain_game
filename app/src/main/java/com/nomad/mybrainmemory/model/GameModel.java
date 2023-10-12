@@ -10,7 +10,13 @@ import java.util.HashMap;
 public class GameModel implements Parcelable {
     private int score;
 
-    private int timeSpent;
+    private int timeSpent = 0;
+
+    private long averageReactionTime = 0;
+
+    private  long averageSuccessReactionTime = 0;
+
+    private float accuracy = 0;
 
     private HashMap<Integer,Integer> levelStatus = new HashMap<>();
 
@@ -25,6 +31,9 @@ public class GameModel implements Parcelable {
     protected GameModel(Parcel in) {
         score = in.readInt();
         timeSpent = in.readInt();
+        averageReactionTime = in.readLong();
+        averageSuccessReactionTime = in.readLong();
+        accuracy = in.readFloat();
         int size = in.readInt();
         for (int i = 0; i < size; i++) {
             Integer key = in.readInt();
@@ -54,6 +63,10 @@ public class GameModel implements Parcelable {
         this.score += score;
     }
 
+    public void resetScore(int score) {
+        this.score = score;
+    }
+
     public int getTimeSpent() {
         return timeSpent;
     }
@@ -75,10 +88,14 @@ public class GameModel implements Parcelable {
         return 0;
     }
 
+
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeInt(score);
         dest.writeInt(timeSpent);
+        dest.writeLong(averageReactionTime);
+        dest.writeLong(averageSuccessReactionTime);
+        dest.writeFloat(accuracy);
         // if this part is uncommented I get a NullPointerException
         dest.writeInt(levelStatus.size());
         for (HashMap.Entry<Integer, Integer> entry : levelStatus.entrySet()) {
@@ -86,4 +103,34 @@ public class GameModel implements Parcelable {
             dest.writeInt(entry.getValue());
         }
     }
+
+    public long getAverageReactionTime() {
+        return averageReactionTime;
+    }
+
+    public long getAverageSuccessReactionTime() {
+        return averageSuccessReactionTime;
+    }
+
+    public float getAccuracy() {
+        return accuracy;
+    }
+
+    public void setAverageReactionTime(long averageReactionTime) {
+        this.averageReactionTime = (this.averageSuccessReactionTime +  averageReactionTime)/2;
+    }
+
+    public void setAverageSuccessReactionTime(long averageSuccessReactionTime) {
+        this.averageSuccessReactionTime = (this.averageSuccessReactionTime + averageSuccessReactionTime)/2;
+    }
+
+    public void setAccuracy(float accuracy) {
+        this.accuracy = (this.accuracy + accuracy)/2;
+    }
+
+    public void setLevelStatus(HashMap<Integer, Integer> levelStatus) {
+        this.levelStatus = levelStatus;
+    }
+
+
 }

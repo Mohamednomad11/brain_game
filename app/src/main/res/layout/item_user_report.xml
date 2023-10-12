@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/ll_user_report_holder"
     android:background="@drawable/rounder_border_light"
     android:orientation="vertical"
     android:layout_marginVertical="8dp"

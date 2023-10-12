@@ -39,6 +39,9 @@
             android:name=".ScoreBoardScreen"
             android:exported="false"/>
         <activity
+            android:name=".ScoreBoardScreenAdmin"
+            android:exported="false"/>
+        <activity
             android:name=".SearchReportActivity"
             android:exported="false"/>
         <activity

@@ -23,11 +23,25 @@ public class ScoreModel implements Parcelable {
 
     private String uid;
 
+    private float accuracy;
+
+    private long avgReactionTime;
+
+    private long avgSucReactionTime;
+
     public ScoreModel(int score, String name,String time, String game) {
         this.score = score;
         this.name = name;
         this.time = time;
         this.game = game;
+    }
+
+    public ScoreModel(int score,String time, float accuracy, long avgReactionTime, long avgSucReactionTime) {
+        this.score = score;
+        this.time = time;
+        this.accuracy = accuracy;
+        this.avgReactionTime = avgReactionTime;
+        this.avgSucReactionTime = avgSucReactionTime;
     }
 
     public ScoreModel(int id, int score, String name, String time, String game) {
@@ -57,6 +71,19 @@ public class ScoreModel implements Parcelable {
         this.uid = uid;
     }
 
+    public ScoreModel(int id, int score, String name, String time, String game, Timestamp timeStamp,String uid, float accuracy, long avgReactionTime, long avgSucReactionTime) {
+        this.id = id;
+        this.score = score;
+        this.name = name;
+        this.time = time;
+        this.game = game;
+        this.timeStamp = timeStamp;
+        this.uid = uid;
+        this.accuracy = accuracy;
+        this.avgReactionTime = avgReactionTime;
+        this.avgSucReactionTime = avgSucReactionTime;
+    }
+
     public ScoreModel(int score, String name, String time, String game, Timestamp timeStamp,String uid) {
         this.score = score;
         this.name = name;
@@ -64,6 +91,19 @@ public class ScoreModel implements Parcelable {
         this.game = game;
         this.timeStamp = timeStamp;
         this.uid = uid;
+    }
+
+    public ScoreModel(int score, String name, String time, String game, Timestamp timeStamp,String uid, float accuracy, long avgReactionTime, long avgSucReactionTime) {
+        this.id = id;
+        this.score = score;
+        this.name = name;
+        this.time = time;
+        this.game = game;
+        this.timeStamp = timeStamp;
+        this.uid = uid;
+        this.accuracy = accuracy;
+        this.avgReactionTime = avgReactionTime;
+        this.avgSucReactionTime = avgSucReactionTime;
     }
 
     protected ScoreModel(Parcel in) {
@@ -74,6 +114,9 @@ public class ScoreModel implements Parcelable {
         game = in.readString();
         timeStamp = in.readParcelable(Timestamp.class.getClassLoader());
         uid = in.readString();
+        accuracy = in.readFloat();
+        avgReactionTime = in.readLong();
+        avgSucReactionTime = in.readLong();
     }
 
     public static final Creator<ScoreModel> CREATOR = new Creator<ScoreModel>() {
@@ -144,6 +187,30 @@ public class ScoreModel implements Parcelable {
         this.uid = uid;
     }
 
+    public float getAccuracy() {
+        return accuracy;
+    }
+
+    public void setAccuracy(float accuracy) {
+        this.accuracy = accuracy;
+    }
+
+    public long getAvgReactionTime() {
+        return avgReactionTime;
+    }
+
+    public void setAvgReactionTime(long avgReactionTime) {
+        this.avgReactionTime = avgReactionTime;
+    }
+
+    public long getAvgSucReactionTime() {
+        return avgSucReactionTime;
+    }
+
+    public void setAvgSucReactionTime(long avgSucReactionTime) {
+        this.avgSucReactionTime = avgSucReactionTime;
+    }
+
     @Override
     public String toString() {
         return "ScoreModel{" +
@@ -152,7 +219,11 @@ public class ScoreModel implements Parcelable {
                 ", name='" + name + '\'' +
                 ", time='" + time + '\'' +
                 ", game='" + game + '\'' +
-                ", timeStamp " + timeStamp.toDate().toString() + '\'' +
+                ", timeStamp=" + timeStamp +
+                ", uid='" + uid + '\'' +
+                ", accuracy=" + accuracy +
+                ", avgReactionTime=" + avgReactionTime +
+                ", avgSucReactionTime=" + avgSucReactionTime +
                 '}';
     }
 
@@ -170,5 +241,8 @@ public class ScoreModel implements Parcelable {
         dest.writeString(game);
         dest.writeParcelable(timeStamp, flags);
         dest.writeString(uid);
+        dest.writeFloat(accuracy);
+        dest.writeLong(avgReactionTime);
+        dest.writeLong(avgSucReactionTime);
     }
 }

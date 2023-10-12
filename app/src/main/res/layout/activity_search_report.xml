@@ -25,4 +25,13 @@
         android:padding="8dp"
         android:scrollbars="vertical" />
 
+    <Button
+        android:id="@+id/btn_avg_performance_all"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Average Performance of All" />
+
 </LinearLayout>

@@ -157,7 +157,7 @@ public class ImageCutter extends AppCompatActivity {
         if(files != null)
             for(File file : files) {
                 file.delete();
-                Log.e("Delete","All existing puzzle photos or files are deleted");
+//                Log.e("Delete","All existing puzzle photos or files are deleted");
             }
     }
 
