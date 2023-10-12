@@ -414,7 +414,7 @@ public class RoundHard extends Fragment{
                             gameModel.setAverageReactionTime(averageReactionTime);
                             gameModel.setAverageSuccessReactionTime(avrgReactionTimeSuccess);
 
-                            gameModel.setTimeSpent(timerUtils.getTimeLeftInSeconds());
+                            gameModel.setTimeSpent(timerUtils.getTimeSpent());
                             timerUtils.finishTimer();
                             gameModel.updateLevelStatus(2,1);
 //                                InfoBox infoBox = new InfoBox();
