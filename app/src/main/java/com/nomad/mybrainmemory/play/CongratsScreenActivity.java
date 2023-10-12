@@ -59,14 +59,18 @@ public class CongratsScreenActivity extends AppCompatActivity {
         String score = String.valueOf(gameModel.getScore()) ;
         String time = String.valueOf(gameModel.getTimeSpent()) ;
         Timestamp timestamp = Timestamp.now();
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = currentUser.getUid();
+
         float accuracy = gameModel.getAccuracy();
         long avgReactionTime = gameModel.getAverageReactionTime();
         long avgSucReactionTime = gameModel.getAverageSuccessReactionTime();
 
-        long rowId = scoreDB.addScore(name,score,time,StaticConstants.GAME_MATCHING,timestamp,accuracy,avgReactionTime,avgSucReactionTime);
+        long rowId = scoreDB.addScore(uid,name,score,time,StaticConstants.GAME_MATCHING,timestamp,accuracy,avgReactionTime,avgSucReactionTime);
        lartestScore = scoreDB.getScore(rowId);
         Log.e("Congrats Screen", lartestScore.toString());
-        if(gameModel.getLevelStatus().get(3) == 1){
+        if((gameModel.getLevelStatus().get(3)) != null && (gameModel.getLevelStatus().get(3)) == 1){
             FireStoreUtils.saveScore(lartestScore);
         }
     }

@@ -19,7 +19,7 @@ import java.util.Comparator;
 
 public class ScoreDB extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "ScoreDB";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 1;
 
     private static final String TABLE_SCORES = "scores";
     private static final String COLUMN_ID = "id";
@@ -97,10 +97,11 @@ public class ScoreDB extends SQLiteOpenHelper {
     }
 
 
-    public long addScore(String name, String score, String time, String game, Timestamp timestamp,float accuracy, long avgReactTime, long avgSucReacTime) {
+    public long addScore(String uid,String name, String score, String time, String game, Timestamp timestamp,float accuracy, long avgReactTime, long avgSucReacTime) {
         long rowId;
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put(COLUMN_F_ID,uid);
         values.put(COLUMN_NAME, name);
         values.put(COLUMN_SCORE, score);
         values.put(COLUMN_TIME,time);

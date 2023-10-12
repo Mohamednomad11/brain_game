@@ -90,7 +90,7 @@
                         android:id="@+id/companyNameTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Company Name"
+                        android:text="HCMC Clinic"
                         android:textSize="18sp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="16dp" />

@@ -67,10 +67,14 @@ public class ScoreBoardScreen extends AppCompatActivity {
         avgPerformanceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ScoreModel averageScoreModel = getAverageScoreModel(populateScore.populateScore());
-                Intent i = new Intent(mcontext, PerformanceReport.class);
-                i.putExtra(StaticConstants.KEY_SCORE_REPORT,averageScoreModel);
-                mcontext.startActivity(i);
+                if(populateScore.populateScore().size() > 0){
+
+                    ScoreModel averageScoreModel = getAverageScoreModel(populateScore.populateScore());
+                    Intent i = new Intent(mcontext, PerformanceReport.class);
+                    i.putExtra(StaticConstants.KEY_SCORE_REPORT,averageScoreModel);
+                    mcontext.startActivity(i);
+                }
+
             }
         });
 

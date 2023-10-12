@@ -18,6 +18,8 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.color.utilities.Score;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FieldValue;
 import com.nomad.mybrainmemory.DifficultyLevelScreen;
 import com.nomad.mybrainmemory.MatchingStartScreen;
@@ -56,11 +58,14 @@ public class CongratsScreen extends Fragment {
         String score = String.valueOf(gameModel.getScore()) ;
         String time = String.valueOf(gameModel.getTimeSpent()) ;
         Timestamp timestamp = Timestamp.now();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = currentUser.getUid();
+
         float accuracy = gameModel.getAccuracy();
         long avgReactionTime = gameModel.getAverageReactionTime();
         long avgSucReactinTime = gameModel.getAverageSuccessReactionTime();
 
-        long rowId = scoreDB.addScore(name,score,time,StaticConstants.GAME_MATCHING,timestamp,accuracy,avgReactionTime,avgSucReactinTime);
+        long rowId = scoreDB.addScore(uid,name,score,time,StaticConstants.GAME_MATCHING,timestamp,accuracy,avgReactionTime,avgSucReactinTime);
         ScoreModel scoreModel = scoreDB.getScore(rowId);
         Log.e("Congrats Screen", scoreModel.toString());
         if(Boolean.TRUE.equals(gameModel.getLevelStatus().get(3))){
@@ -73,7 +78,7 @@ public class CongratsScreen extends Fragment {
                              Bundle savedInstanceState) {
         Context context = requireContext();
         scoreDB = new ScoreDB(context);
-        saveScore(gameModel);
+//        saveScore(gameModel);
         return inflater.inflate(R.layout.fragment_congrats_screen, container, false);
     }
 

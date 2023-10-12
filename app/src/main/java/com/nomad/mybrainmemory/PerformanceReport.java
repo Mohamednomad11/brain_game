@@ -28,7 +28,9 @@ import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.Utils;
 import com.google.firebase.FirebaseApp;
+import com.nomad.mybrainmemory.game.PopulateScore;
 import com.nomad.mybrainmemory.game.ScoreDB;
+import com.nomad.mybrainmemory.jigsawpuzzle.adapter.StorePreference;
 import com.nomad.mybrainmemory.model.ScoreModel;
 import com.nomad.mybrainmemory.play.CongratsScreenActivity;
 import com.nomad.mybrainmemory.util.ScoreModelComparator;
@@ -198,8 +200,22 @@ public class PerformanceReport extends AppCompatActivity {
 
             // add data
 
+            StorePreference storePreference = new StorePreference(this);
 
-            scoreModelList = StaticConstants.userScoreMap.getOrDefault(scoreModel.getUid(),null);
+            String userType =  storePreference.getStringValue(StaticConstants.KEY_USER_TYPE);
+
+            if(userType.equals(StaticConstants.VAL_USER_TYPE_USER)){
+
+                PopulateScore populateScore = new PopulateScore(this);
+
+                scoreModelList = populateScore.populateScore();
+
+            }else{
+                scoreModelList = StaticConstants.userScoreMap.getOrDefault(scoreModel.getUid(),null);
+            }
+
+
+
 
 
 
